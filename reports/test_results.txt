@@ -1,0 +1,35 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.18, pytest-8.3.5, pluggy-1.7.0
+rootdir: /Users/anny/Desktop/mutual-fund
+configfile: pytest.ini
+collected 344 items
+
+tests/test_adapters.py .........                                         [  2%]
+tests/test_alerts.py .....                                               [  4%]
+tests/test_amfi_flows.py ..................                              [  9%]
+tests/test_app_loaders.py ............................                   [ 17%]
+tests/test_app_resilience.py .............................               [ 25%]
+tests/test_app_shell.py .................                                [ 30%]
+tests/test_cli.py ...........                                            [ 34%]
+tests/test_contracts.py ................................                 [ 43%]
+tests/test_data_sources.py .......                                       [ 45%]
+tests/test_explain.py .....                                              [ 46%]
+tests/test_features.py ..........                                        [ 49%]
+tests/test_flow_validation.py ...........                                [ 52%]
+tests/test_forecasting.py .......                                        [ 54%]
+tests/test_formatters.py ......                                          [ 56%]
+tests/test_gdelt.py ....                                                 [ 57%]
+tests/test_market.py .....                                               [ 59%]
+tests/test_nav_ingest.py .........                                       [ 61%]
+tests/test_ranking.py .......                                            [ 63%]
+tests/test_registry.py ................                                  [ 68%]
+tests/test_regression_agent_a.py ..........................              [ 76%]
+tests/test_regression_agent_b.py ...........................             [ 84%]
+tests/test_reporting.py ......                                           [ 85%]
+tests/test_sentiment.py ........                                         [ 88%]
+tests/test_snapshots.py ....................                             [ 93%]
+tests/test_stress.py ........                                            [ 96%]
+tests/test_ui_pages.py .......                                           [ 98%]
+tests/test_user_forecast.py ......                                       [100%]
+
+============================= 344 passed in 10.39s =============================

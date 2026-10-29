@@ -1,10 +1,11 @@
 .venv/
-venv/
 __pycache__/
-*.py[cod]
 .pytest_cache/
-.streamlit/secrets.toml
+*.py[cod]
 .env
-data/cache/
-*.sqlite3
+.env.*
+!.env.example
+data/raw/
+data/processed/
+data/outputs/
 .DS_Store

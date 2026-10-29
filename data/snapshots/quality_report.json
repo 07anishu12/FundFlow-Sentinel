@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "source": "AMFI monthly flow validation engine",
+  "generated_at": "2026-10-28T19:41:46Z",
+  "payload": {
+    "status": "pass",
+    "checks": [
+      {
+        "name": "schema_columns",
+        "status": "pass",
+        "details": "All 10 contract columns verified."
+      },
+      {
+        "name": "units_inr_crore",
+        "status": "pass",
+        "details": "All monetary columns confirmed finite INR crore."
+      },
+      {
+        "name": "category_universe",
+        "status": "pass",
+        "details": "Universe checked (6 universe categories)."
+      },
+      {
+        "name": "duplicate_keys",
+        "status": "pass",
+        "details": "Zero (month, category) duplicates."
+      },
+      {
+        "name": "available_from_non_leakage",
+        "status": "pass",
+        "details": "Verified available_from strictly post-month-end."
+      },
+      {
+        "name": "gross_redemption_observed",
+        "status": "pass",
+        "details": "All gross redemptions observed, zero inferred."
+      }
+    ],
+    "coverage": {
+      "start_month": "2024-09",
+      "end_month": "2024-09",
+      "n_months": 1,
+      "total_records": 8,
+      "categories_count": 8
+    },
+    "exclusions": [
+      "Liquid",
+      "Overnight"
+    ],
+    "missingness": {
+      "gaps_per_category": {},
+      "total_gap_months": 0
+    },
+    "unmapped_labels": []
+  }
+}

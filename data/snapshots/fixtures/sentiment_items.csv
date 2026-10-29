@@ -1,0 +1,2 @@
+article_id,published_at,title,source_name,url,p_pos,p_neg,p_neu,label,score,topic_tags,is_live,model_id
+synthetic-001,2020-02-10T00:00:00Z,SYNTHETIC_TEST,SYNTHETIC_TEST,synthetic:not-a-source,0.2,0.2,0.6,neutral,0,SYNTHETIC_TEST,false,SYNTHETIC_TEST

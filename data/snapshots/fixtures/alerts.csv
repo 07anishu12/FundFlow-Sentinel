@@ -1,0 +1,2 @@
+as_of,target_month,category,level,rules_triggered,forecast_rate,forecast_percentile,robust_z,momentum_3m,est_outflow_cr,reference_aum_cr,aum_month,sentiment_status,sentiment_note,data_freshness_days,limitations
+2020-02-10T00:00:00Z,2020-02,SYNTHETIC_TEST,Normal,none,1.0,1.0,1.0,1.0,1.0,1.0,2020-01,unavailable,Synthetic fixture only,1.0,SYNTHETIC: not observations or fitted predictions

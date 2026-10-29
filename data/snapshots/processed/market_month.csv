@@ -1,0 +1,2 @@
+month,nifty_return,nifty_drawdown_3m,vix_mean,vix_change,available_from,source_name,retrieved_at
+2024-09,2.85,-1.45,12.80,-0.75,2024-10-10T00:00:00Z,synthetic:macro-indicators,2024-10-10T00:00:00Z

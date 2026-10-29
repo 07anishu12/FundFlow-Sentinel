@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "source": "FundFlow walk-forward forecasting engine",
+  "generated_at": "2026-10-28T19:41:46Z",
+  "payload": {
+    "status": "insufficient_history",
+    "metrics": {},
+    "limitations": [
+      "Observed category flow history contains 1 month (September 2024); walk-forward evaluation requires minimum 36 months.",
+      "Empirical residual bands withheld due to insufficient historical sample size.",
+      "Category-level aggregate redemption rates do not represent scheme-level or liquidity-stressed redemption risk."
+    ]
+  }
+}

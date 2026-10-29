@@ -1,0 +1,2 @@
+as_of,target_month,category,rate_lag0,rate_lag1,rate_lag2,rate_lag11,roll_mean3,roll_std3,delta1,net_flow_rate_lag0,aum_growth_lag0,nifty_return_lag0,nifty_drawdown_3m,vix_mean_lag0,vix_change_lag0,target_rate
+2020-02-10T00:00:00Z,2020-02,SYNTHETIC_TEST,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,

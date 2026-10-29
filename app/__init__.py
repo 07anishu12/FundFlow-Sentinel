@@ -1,0 +1,1 @@
+"""Offline Streamlit application shell."""

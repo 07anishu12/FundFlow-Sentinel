@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "generated_at": "2026-10-29T17:28:00Z",
+  "validation_engine": "FundFlow User-Defined Walk-Forward Evaluation",
+  "leakage_protection": "Strict fold-internal fitting; no future lookahead",
+  "benchmarks": {
+    "flow_Aggressive Hybrid": {
+      "dataset": "flows_category_month",
+      "target": "gross_redemption_cr",
+      "n_observations": 72,
+      "forecasts": {
+        "persistence": {
+          "value": 2290.7604,
+          "lower_p10": null,
+          "upper_p90": null,
+          "method": "R_hat(t+h) = R(t)"
+        },
+        "seasonal_naive": {
+          "value": 2610.0341,
+          "lower_p10": null,
+          "upper_p90": null,
+          "method": "R_hat(t+h) = R(t+h-12)"
+        },
+        "ridge": {
+          "value": 2490.6913,
+          "lower_p10": 1830.8176,
+          "upper_p90": 3429.3721,
+          "method": "Ridge AR(3) Expanding Window"
+        }
+      },
+      "comparison": [
+        {
+          "Model": "Persistence",
+          "MAE": 517.0509,
+          "RMSE": 770.2848,
+          "Baseline Comparison": "Baseline Reference",
+          "OOS Observations": 66,
+          "Status": "Evaluated (Out-of-Sample)"
+        },
+        {
+          "Model": "Seasonal Naive",
+          "MAE": 892.4022,
+          "RMSE": 1253.9204,
+          "Baseline Comparison": "Underperforms baseline (72.6% higher MAE)",
+          "OOS Observations": 66,
+          "Status": "Evaluated (Out-of-Sample)"
+        },
+        {
+          "Model": "Ridge",
+          "MAE": 669.2171,
+          "RMSE": 972.3167,
+          "Baseline Comparison": "Underperforms baseline (29.4% higher MAE)",
+          "OOS Observations": 66,
+          "Status": "Evaluated (Out-of-Sample)"
+        }
+      ],
+      "limitations": []
+    },
+    "flow_Liquid": {
+      "dataset": "flows_category_month",
+      "target": "gross_redemption_cr",
+      "n_observations": 72,
+      "forecasts": {
+        "persistence": {
+          "value": 639474.4249,
+          "lower_p10": null,
+          "upper_p90": null,
+          "method": "R_hat(t+h) = R(t)"
+        },
+        "seasonal_naive": {
+          "value": 288656.2474,
+          "lower_p10": null,
+          "upper_p90": null,
+          "method": "R_hat(t+h) = R(t+h-12)"
+        },
+        "ridge": {
+          "value": 638158.8066,
+          "lower_p10": 498257.6073,
+          "upper_p90": 783045.679,
+          "method": "Ridge AR(3) Expanding Window"
+        }
+      },
+      "comparison": [
+        {
+          "Model": "Persistence",
+          "MAE": 88432.1499,
+          "RMSE": 143678.9924,
+          "Baseline Comparison": "Baseline Reference",
+          "OOS Observations": 66,
+          "Status": "Evaluated (Out-of-Sample)"
+        },
+        {
+          "Model": "Seasonal Naive",
+          "MAE": 266529.4576,
+          "RMSE": 537974.0405,
+          "Baseline Comparison": "Underperforms baseline (201.4% higher MAE)",
+          "OOS Observations": 66,
+          "Status": "Evaluated (Out-of-Sample)"
+        },
+        {
+          "Model": "Ridge",
+          "MAE": 140925.7683,
+          "RMSE": 261480.8927,
+          "Baseline Comparison": "Underperforms baseline (59.4% higher MAE)",
+          "OOS Observations": 66,
+          "Status": "Evaluated (Out-of-Sample)"
+        }
+      ],
+      "limitations": []
+    },
+    "nav_119551": {
+      "dataset": "nav_daily",
+      "target": "nav",
+      "n_observations": 782,
+      "forecasts": {
+        "persistence": {
+          "value": 136.1937,
+          "lower_p10": null,
+          "upper_p90": null,
+          "method": "R_hat(t+h) = R(t)"
+        },
+        "seasonal_naive": {
+          "value": 137.1145,
+          "lower_p10": null,
+          "upper_p90": null,
+          "method": "R_hat(t+h) = R(t+h-12)"
+        },
+        "ridge": {
+          "value": 136.2214,
+          "lower_p10": 134.9556,
+          "upper_p90": 137.4105,
+          "method": "Ridge AR(3) Expanding Window"
+        }
+      },
+      "comparison": [
+        {
+          "Model": "Persistence",
+          "MAE": 0.7717,
+          "RMSE": 0.9778,
+          "Baseline Comparison": "Baseline Reference",
+          "OOS Observations": 776,
+          "Status": "Evaluated (Out-of-Sample)"
+        },
+        {
+          "Model": "Seasonal Naive",
+          "MAE": 2.5335,
+          "RMSE": 3.2203,
+          "Baseline Comparison": "Underperforms baseline (228.3% higher MAE)",
+          "OOS Observations": 776,
+          "Status": "Evaluated (Out-of-Sample)"
+        },
+        {
+          "Model": "Ridge",
+          "MAE": 0.7849,
+          "RMSE": 0.992,
+          "Baseline Comparison": "Underperforms baseline (1.7% higher MAE)",
+          "OOS Observations": 776,
+          "Status": "Evaluated (Out-of-Sample)"
+        }
+      ],
+      "limitations": []
+    }
+  }
+}

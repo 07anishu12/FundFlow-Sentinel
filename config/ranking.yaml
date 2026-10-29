@@ -1,0 +1,9 @@
+weights:
+  return: 0.30
+  consistency: 0.25
+  drawdown: 0.25
+  risk_adj: 0.20
+min_history_years: 3
+plan_type: Direct
+option_type: Growth
+sensitivity_weight_points: 10

@@ -1,0 +1,2 @@
+month,category,gross_inflow_cr,gross_redemption_cr,net_flow_cr,aum_close_cr,aaum_cr,available_from,source_url,retrieved_at
+2020-01,SYNTHETIC_TEST,12,10,2,100,99,2020-02-10T00:00:00Z,synthetic:not-a-source,2020-02-10T00:00:00Z

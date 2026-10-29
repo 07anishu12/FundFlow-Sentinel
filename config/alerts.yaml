@@ -1,0 +1,7 @@
+elevated_percentile: 80
+critical_percentile: 90
+robust_z_threshold: 2.0
+momentum_threshold: 0.10
+sentiment_min_articles: 30
+sentiment_window_days: 14
+sentiment_percentile: 75

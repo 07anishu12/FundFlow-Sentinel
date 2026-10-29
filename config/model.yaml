@@ -1,0 +1,8 @@
+min_train_months: 36
+alphas: [0.1, 1, 10, 100]
+lags: [0, 1, 2, 11]
+target_mode: level
+seed: 42
+sentiment_features: false
+optional_boosting: false
+split_unit: target_month

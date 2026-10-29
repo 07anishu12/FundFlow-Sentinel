@@ -1,0 +1,16 @@
+{
+  "synthetic": true,
+  "warning": "SYNTHETIC DEMO DATA \u2014 not real observations, trained forecasts or investment evidence",
+  "tables": [
+    "flows_category_month",
+    "market_month",
+    "feature_matrix",
+    "predictions",
+    "alerts",
+    "nav_daily",
+    "scheme_master",
+    "shortlist",
+    "sentiment_items",
+    "sentiment_agg"
+  ]
+}

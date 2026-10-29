@@ -1,0 +1,12 @@
+raw_category,category,valid_from,valid_to
+Large Cap Fund,Large Cap,2018-04,9999-12
+Mid Cap Fund,Mid Cap,2018-04,9999-12
+Small Cap Fund,Small Cap,2018-04,9999-12
+Flexi Cap Fund,Flexi Cap,2021-01,9999-12
+Balanced Hybrid Fund/Aggressive Hybrid Fund,Aggressive Hybrid,2018-04,9999-12
+Balanced,Aggressive Hybrid,2018-04,2019-03
+Aggressive Hybrid Fund,Aggressive Hybrid,2025-01,9999-12
+Corporate Bond Fund,Corporate Bond,2018-04,9999-12
+Liquid Fund,Liquid,2018-04,9999-12
+Liquid/ Money Market,Liquid,2018-04,2019-03
+Overnight Fund,Overnight,2018-04,9999-12

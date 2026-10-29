@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "mode": "offline_snapshot",
+  "snapshot_id": "snapshot-20261028_194146-b1debc5c",
+  "source": "FundFlow Sentinel Verified Offline Demo Snapshot",
+  "generated_at": "2026-10-28T19:41:46Z",
+  "generator_command": "fundflow snapshot create",
+  "git_commit": "main-uncommitted-dev",
+  "quality_status": "pass",
+  "tables": [
+    "alerts",
+    "feature_matrix",
+    "flows_category_month",
+    "market_month",
+    "nav_daily",
+    "predictions",
+    "scheme_master",
+    "sentiment_agg",
+    "sentiment_items",
+    "shortlist"
+  ],
+  "artifacts": [
+    "model_results",
+    "quality_report",
+    "source_metadata"
+  ],
+  "files": [
+    {
+      "path": "outputs/alerts.csv",
+      "size_bytes": 2007,
+      "sha256": "4d106974a5d7cc465d0248f9b090e10cc27407575c509181d913a88d4ce66a2a",
+      "rows": 8,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "outputs/model_results.json",
+      "size_bytes": 553,
+      "sha256": "77c78c56d73c32479ec854b0d0b61227e218c47efbefd322c1a85929ac782d3d",
+      "rows": null,
+      "origin": "derived",
+      "source_id": "fundflow:governance",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "outputs/predictions.csv",
+      "size_bytes": 1574,
+      "sha256": "6122aae26ce19945feef05c559b8ab64cecf81ef90c1eeef35b6f1694a62d273",
+      "rows": 8,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "outputs/sentiment_agg.csv",
+      "size_bytes": 102,
+      "sha256": "a82895d85053f14527e45c66f6a21b4b5fa8ab2a3a3d92b128da500355cf92bf",
+      "rows": 1,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "outputs/sentiment_items.csv",
+      "size_bytes": 494,
+      "sha256": "4dc3ca4e4caaad7c5e7e1df7b8ff69ce194b68c552d60b8a899b524fbde262ca",
+      "rows": 2,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "outputs/shortlist.csv",
+      "size_bytes": 428,
+      "sha256": "6709e7a8bf9c6738f645a82d34cdd8b905a3874166b56367ba4fcc89a1cc57be",
+      "rows": 2,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "processed/feature_matrix.csv",
+      "size_bytes": 1126,
+      "sha256": "f3abd51c7452f1ad347af23ee0d85a43ee1acc258dc9595136cd872c93379a5d",
+      "rows": 8,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "processed/flows_category_month.csv",
+      "size_bytes": 1157,
+      "sha256": "33d0fc311d171258363d76fe41d42b670c2c42174d67b58ebe1231c51a3b408f",
+      "rows": 8,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "processed/market_month.csv",
+      "size_bytes": 197,
+      "sha256": "ff514f13c5190c96c1bfa55d9a5fbe832a27abd19ac93c6d62f97bb6d904f388",
+      "rows": 1,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "processed/nav_daily.csv",
+      "size_bytes": 222,
+      "sha256": "2a493f6be4cc1bc54621392c517ffee01694026166b6017e4c86743b05b95502",
+      "rows": 4,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "processed/scheme_master.csv",
+      "size_bytes": 275,
+      "sha256": "ce05e4d042ca146925b5db4c56773926a68d1bd9944612bc1846c96aeb882c81",
+      "rows": 2,
+      "origin": "synthetic",
+      "source_id": "synthetic:not-a-source",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "quality_report.json",
+      "size_bytes": 1382,
+      "sha256": "b839e57d98f62bd99efa2267dc004309f5115f8ca8fac7d78339f6749687f5d0",
+      "rows": null,
+      "origin": "derived",
+      "source_id": "fundflow:governance",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    },
+    {
+      "path": "source_metadata.json",
+      "size_bytes": 11712,
+      "sha256": "1f1e56cb6de6dc7b33a917f7bdf732d64736d0f21616d52b4466073f22dacc95",
+      "rows": null,
+      "origin": "derived",
+      "source_id": "fundflow:governance",
+      "redistribution": "permitted",
+      "source_period": "2024-09"
+    }
+  ]
+}

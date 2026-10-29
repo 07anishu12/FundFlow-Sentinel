@@ -1,0 +1,2 @@
+as_of,target_month,category,model_id,predicted_rate,baseline_rate,actual_rate,is_out_of_sample,train_start,train_end,contrib_json
+2020-02-10T00:00:00Z,2020-02,SYNTHETIC_TEST,SYNTHETIC_TEST,1.0,1.0,,false,2017-01-10T00:00:00Z,2020-02-10T00:00:00Z,{}

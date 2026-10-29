@@ -1,0 +1,9 @@
+as_of,target_month,category,model_id,predicted_rate,baseline_rate,actual_rate,is_out_of_sample,train_start,train_end,contrib_json
+2024-10-10T00:00:00Z,2024-09,Large Cap,ridge-synthetic-v1,1.09,1.12,,true,2021-09-10T00:00:00Z,2024-08-10T00:00:00Z,"{""base"": 1.0, ""vix_mean"": -0.05, ""nifty_return"": 0.08}"
+2024-10-10T00:00:00Z,2024-09,Flexi Cap,ridge-synthetic-v1,1.02,1.05,,true,2021-09-10T00:00:00Z,2024-08-10T00:00:00Z,"{""base"": 1.0, ""vix_mean"": -0.05, ""nifty_return"": 0.08}"
+2024-10-10T00:00:00Z,2024-09,Mid Cap,ridge-synthetic-v1,1.15,1.10,,true,2021-09-10T00:00:00Z,2024-08-10T00:00:00Z,"{""base"": 1.0, ""vix_mean"": -0.05, ""nifty_return"": 0.08}"
+2024-10-10T00:00:00Z,2024-09,Small Cap,ridge-synthetic-v1,1.38,1.25,,true,2021-09-10T00:00:00Z,2024-08-10T00:00:00Z,"{""base"": 1.0, ""vix_mean"": -0.05, ""nifty_return"": 0.08}"
+2024-10-10T00:00:00Z,2024-09,Corporate Bond,ridge-synthetic-v1,2.31,2.20,,true,2021-09-10T00:00:00Z,2024-08-10T00:00:00Z,"{""base"": 1.0, ""vix_mean"": -0.05, ""nifty_return"": 0.08}"
+2024-10-10T00:00:00Z,2024-09,Aggressive Hybrid,ridge-synthetic-v1,1.04,1.08,,true,2021-09-10T00:00:00Z,2024-08-10T00:00:00Z,"{""base"": 1.0, ""vix_mean"": -0.05, ""nifty_return"": 0.08}"
+2024-10-10T00:00:00Z,2024-09,Liquid,ridge-synthetic-v1,91.20,92.50,,true,2021-09-10T00:00:00Z,2024-08-10T00:00:00Z,"{""base"": 1.0, ""vix_mean"": -0.05, ""nifty_return"": 0.08}"
+2024-10-10T00:00:00Z,2024-09,Overnight,ridge-synthetic-v1,98.50,99.10,,true,2021-09-10T00:00:00Z,2024-08-10T00:00:00Z,"{""base"": 1.0, ""vix_mean"": -0.05, ""nifty_return"": 0.08}"

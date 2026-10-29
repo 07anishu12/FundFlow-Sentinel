@@ -1,0 +1,192 @@
+{
+  "Home": {
+    "status": "PASS",
+    "exceptions": [],
+    "titles": [
+      "Command Centre",
+      "FundFlow Sentinel"
+    ],
+    "metrics_count": 5,
+    "metrics": [
+      {
+        "label": "OBSERVED \u00b7 Closing AUM",
+        "value": "254594.79049813 \u20b9 crore"
+      },
+      {
+        "label": "OBSERVED \u00b7 Gross redemptions",
+        "value": "2290.76037615 \u20b9 crore"
+      },
+      {
+        "label": "FORECAST \u00b7 Alert level",
+        "value": "Normal tier"
+      },
+      {
+        "label": "FORECAST \u00b7 Forecast rate",
+        "value": "0.7486 %"
+      },
+      {
+        "label": "SCENARIO \u00b7 Est. outflow",
+        "value": "1668.74 \u20b9 crore"
+      }
+    ],
+    "dataframes_count": 0,
+    "warnings": [
+      "SYNTHETIC DEMO DATA \u2014 invented test inputs, not real observations or trained forecasts."
+    ],
+    "infos": [
+      "Freshness \u00b7 Period: 2026-09 \u00b7 As of: 2026-10-28T17:45:04.533605Z \u00b7 Mode: offline_snapshot \u00b7 Source: FundFlow Sentinel Verified Offline Demo Snapshot"
+    ]
+  },
+  "Forecast_Lab": {
+    "status": "PASS",
+    "exceptions": [],
+    "titles": [
+      "Forecast Lab",
+      "FundFlow Sentinel"
+    ],
+    "metrics_count": 5,
+    "metrics": [
+      {
+        "label": "FORECAST \u00b7 Redemption rate",
+        "value": "0.7486 %"
+      },
+      {
+        "label": "FORECAST \u00b7 Persistence baseline",
+        "value": "0.7623 %"
+      },
+      {
+        "label": "SCENARIO \u00b7 Lower bound (P10)",
+        "value": "0.1279 %"
+      },
+      {
+        "label": "FORECAST \u00b7 Point forecast",
+        "value": "0.7486 %"
+      },
+      {
+        "label": "SCENARIO \u00b7 Upper bound (P90)",
+        "value": "0.8863 %"
+      }
+    ],
+    "dataframes_count": 0,
+    "warnings": [
+      "SYNTHETIC DEMO DATA \u2014 invented test inputs, not real observations or trained forecasts."
+    ],
+    "infos": [
+      "Freshness \u00b7 Period: 2024-12 \u00b7 As of: 2024-12-12T00:00:00Z \u00b7 Mode: offline_snapshot \u00b7 Source: FundFlow Sentinel Verified Offline Demo Snapshot",
+      "Uncertainty Governance Policy: Bands require >= 10 out-of-sample residuals. Any category with fewer observations is classified as INSUFFICIENT_HISTORY and withheld."
+    ]
+  },
+  "Sentiment_Monitor": {
+    "status": "PASS",
+    "exceptions": [],
+    "titles": [
+      "Sentiment Monitor",
+      "FundFlow Sentinel"
+    ],
+    "metrics_count": 0,
+    "metrics": [],
+    "dataframes_count": 0,
+    "warnings": [
+      "SYNTHETIC DEMO DATA \u2014 invented test inputs, not real observations or trained forecasts."
+    ],
+    "infos": [
+      "Freshness \u00b7 Period: unavailable \u00b7 As of: unavailable \u00b7 Mode: offline_snapshot \u00b7 Source: FundFlow Sentinel Verified Offline Demo Snapshot",
+      "Dataset is empty; no values are displayed.",
+      "Source Distinction Mandate: RSS headline sentiment (lexical analysis) reflects immediate media tone, whereas GDELT represents broad macro media tone. They are distinct measurements and never merged.",
+      "Item-level sentiment records unavailable in current bundle."
+    ]
+  },
+  "Fund_Research": {
+    "status": "PASS",
+    "exceptions": [],
+    "titles": [
+      "Fund Research",
+      "FundFlow Sentinel"
+    ],
+    "metrics_count": 3,
+    "metrics": [
+      {
+        "label": "OBSERVED \u00b7 Research score",
+        "value": "50.0 points / 100"
+      },
+      {
+        "label": "OBSERVED \u00b7 3Y CAGR",
+        "value": "12.7033 %"
+      },
+      {
+        "label": "OBSERVED \u00b7 Max drawdown",
+        "value": "24.9268 %"
+      }
+    ],
+    "dataframes_count": 1,
+    "warnings": [
+      "SYNTHETIC DEMO DATA \u2014 invented test inputs, not real observations or trained forecasts."
+    ],
+    "infos": [
+      "Freshness \u00b7 Period: 2024-09-30 \u00b7 As of: unavailable \u00b7 Mode: offline_snapshot \u00b7 Source: FundFlow Sentinel Verified Offline Demo Snapshot"
+    ]
+  },
+  "Stress_Lab": {
+    "status": "PASS",
+    "exceptions": [],
+    "titles": [
+      "Stress Lab",
+      "FundFlow Sentinel"
+    ],
+    "metrics_count": 3,
+    "metrics": [
+      {
+        "label": "OBSERVED \u00b7 Reference AUM proxy",
+        "value": "222,915.29 \u20b9 crore"
+      },
+      {
+        "label": "FORECAST \u00b7 Base forecast rate",
+        "value": "0.75 %"
+      },
+      {
+        "label": "SCENARIO \u00b7 Base outflow proxy",
+        "value": "1,668.74 \u20b9 crore"
+      }
+    ],
+    "dataframes_count": 1,
+    "warnings": [
+      "SYNTHETIC DEMO DATA \u2014 invented test inputs, not real observations or trained forecasts.",
+      "\u26a0\ufe0f INSUFFICIENT_HISTORY POLICY: For any category or sub-period with < 24 months of observations or < 10 out-of-sample residuals, empirical bands and worst-case rates are classified as INSUFFICIENT_HISTORY and withheld to prevent statistical fabrication."
+    ],
+    "infos": [
+      "Freshness \u00b7 Period: unavailable \u00b7 As of: unavailable \u00b7 Synthetic fixture timestamps; no live refresh.",
+      "Freshness \u00b7 Period: 2024-12 \u00b7 As of: 2024-12-12T00:00:00Z \u00b7 Mode: offline_snapshot \u00b7 Source: FundFlow Sentinel Verified Offline Demo Snapshot"
+    ]
+  },
+  "Evidence_and_Limits": {
+    "status": "PASS",
+    "exceptions": [],
+    "titles": [
+      "Evidence and Limits",
+      "FundFlow Sentinel"
+    ],
+    "metrics_count": 3,
+    "metrics": [
+      {
+        "label": "OBSERVED \u00b7 Months covered",
+        "value": "72 months"
+      },
+      {
+        "label": "OBSERVED \u00b7 Total records",
+        "value": "543 records"
+      },
+      {
+        "label": "OBSERVED \u00b7 Categories",
+        "value": "8 categories"
+      }
+    ],
+    "dataframes_count": 3,
+    "warnings": [
+      "SYNTHETIC DEMO DATA \u2014 invented test inputs, not real observations or trained forecasts.",
+      "\u26a0\ufe0f STRICT REDISTRIBUTION POLICY: Personal and non-commercial access only. Public redistribution of index or AMFI reports requires explicit third-party permissions. Live network access is never required by this application."
+    ],
+    "infos": [
+      "Freshness \u00b7 Period: unavailable \u00b7 As of: unavailable \u00b7 Synthetic fixture timestamps; no live refresh."
+    ]
+  }
+}

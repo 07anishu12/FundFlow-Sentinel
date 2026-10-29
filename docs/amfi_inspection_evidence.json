@@ -1,0 +1,255 @@
+[
+  {
+    "period": "2018-04",
+    "url": "https://portal.amfiindia.com/spages/amapr2018repo.xls",
+    "http_last_modified": "Thu, 24 May 2018 09:18:25 GMT",
+    "in_file_release": "Released on 07.05.2018",
+    "content_length": "102912",
+    "file_type": "BIFF8 (OLE2 Compound .xls)",
+    "magic_hex": "d0cf11e0a1b11ae1",
+    "sheets": [
+      "a+s+r",
+      "sales",
+      "red+assets",
+      "AAUM"
+    ],
+    "units": "INR in crore",
+    "row_count_est": 166,
+    "sample_categories": [
+      "Liquid/ Money Market"
+    ],
+    "sample_columns": [
+      "Net Inflow / (Outflow)",
+      "Net Inflow / (Outflow)   For the Current Year 4",
+      "Net Inflow  / (Outflow)"
+    ],
+    "notes": "Start of FY2018-19; SEBI categorization transition window"
+  },
+  {
+    "period": "2018-09",
+    "url": "https://portal.amfiindia.com/spages/amsep2018repo.xls",
+    "http_last_modified": "Thu, 11 Oct 2018 06:17:57 GMT",
+    "in_file_release": "Released on 08.10.2018w",
+    "content_length": "118784",
+    "file_type": "BIFF8 (OLE2 Compound .xls)",
+    "magic_hex": "d0cf11e0a1b11ae1",
+    "sheets": [
+      "a+s+r",
+      "sales",
+      "red+assets",
+      "AAUM"
+    ],
+    "units": "INR in crore",
+    "row_count_est": 173,
+    "sample_categories": [
+      "Liquid/ Money Market",
+      "OPEN END EQUITY",
+      "OPEN END INCOME",
+      "Corporate Bond Fund"
+    ],
+    "sample_columns": [
+      "Net Inflow / (Outflow)",
+      "Net Inflow / (Outflow)",
+      "Net Inflow / (Outflow)"
+    ],
+    "notes": "FY2018-19 mid-year; legacy multi-sheet BIFF8 layout"
+  },
+  {
+    "period": "2019-04",
+    "url": "https://portal.amfiindia.com/spages/amapr2019repo.xls",
+    "http_last_modified": "Mon, 10 Jun 2019 09:51:59 GMT",
+    "in_file_release": "Released on 09-May-2019",
+    "content_length": "37837",
+    "file_type": "OOXML (.xlsx disguised as .xls)",
+    "magic_hex": "504b030414000600",
+    "sheets": [
+      "Apr 2019",
+      "New Schemes"
+    ],
+    "units": "INR in crore",
+    "row_count_est": 90,
+    "sample_categories": [
+      "Overnight Fund",
+      "Liquid Fund",
+      "Corporate Bond Fund",
+      "Large Cap Fund",
+      "Mid Cap Fund",
+      "Small Cap Fund",
+      "Balanced Hybrid Fund/Aggressive Hybrid Fund"
+    ],
+    "sample_columns": [
+      "Scheme Category",
+      "No. of Schemes ",
+      "No. Of Folios",
+      "Fund Mobilized during April 2019",
+      "Repurchase/Redemption during April 2019",
+      "Net Inflow (+ve)/Outflow (-ve) for the month of April 2019"
+    ],
+    "notes": "Start of FY2019-20; consolidated single-sheet OOXML layout"
+  },
+  {
+    "period": "2020-09",
+    "url": "https://portal.amfiindia.com/spages/amsep2020repo.xls",
+    "http_last_modified": "Thu, 08 Oct 2020 07:34:08 GMT",
+    "in_file_release": "Released on 08-Oct-2020",
+    "content_length": "38344",
+    "file_type": "OOXML (.xlsx disguised as .xls)",
+    "magic_hex": "504b030414000600",
+    "sheets": [
+      "Sep 20",
+      "New Schemes"
+    ],
+    "units": "Unknown",
+    "row_count_est": 91,
+    "sample_categories": [
+      "Overnight Fund",
+      "Liquid Fund",
+      "Corporate Bond Fund",
+      "Large Cap Fund",
+      "Mid Cap Fund",
+      "Small Cap Fund",
+      "Balanced Hybrid Fund/Aggressive Hybrid Fund"
+    ],
+    "sample_columns": [
+      "Scheme Name ",
+      "No. of Schemes as on September 30, 2020",
+      "No. of Folios as on September 30, 2020",
+      "Funds Mobilized for the month of September 2020 ",
+      "Repurchase/ Redemption for the month of September 2020",
+      "Net Inflow (+ve)/Outflow (-ve) for the month of September 2020 "
+    ],
+    "notes": "Pre-Flexi Cap baseline; COVID recovery period"
+  },
+  {
+    "period": "2021-01",
+    "url": "https://portal.amfiindia.com/spages/amjan2021repo.xls",
+    "http_last_modified": "Tue, 09 Feb 2021 07:33:12 GMT",
+    "in_file_release": "Released on 09-Feb-2021",
+    "content_length": "38567",
+    "file_type": "OOXML (.xlsx disguised as .xls)",
+    "magic_hex": "504b030414000600",
+    "sheets": [
+      "Jan 21",
+      "New Schemes"
+    ],
+    "units": "INR in crore",
+    "row_count_est": 93,
+    "sample_categories": [
+      "Overnight Fund",
+      "Liquid Fund",
+      "Corporate Bond Fund",
+      "Large Cap Fund",
+      "Mid Cap Fund",
+      "Small Cap Fund",
+      "Flexi Cap Fund",
+      "Balanced Hybrid Fund/Aggressive Hybrid Fund"
+    ],
+    "sample_columns": [
+      "Scheme Name ",
+      "No. of Schemes as on January 31, 2021",
+      "No. of Folios as on January 31, 2021",
+      "Funds Mobilized for the month of January 2021 (INR in crore)",
+      "Repurchase/ Redemption for the month of January 2021 (INR in crore)",
+      "Net Inflow (+ve)/ Outflow (-ve) for the month of January 2021 (INR in crore)"
+    ],
+    "notes": "Flexi Cap introduction structural break (16 Multi Cap funds reclassified)"
+  },
+  {
+    "period": "2022-09",
+    "url": "https://portal.amfiindia.com/spages/amsep2022repo.xls",
+    "http_last_modified": "Mon, 10 Oct 2022 08:25:42 GMT",
+    "in_file_release": "Released on 10-Oct-2022",
+    "content_length": "44686",
+    "file_type": "OOXML (.xlsx disguised as .xls)",
+    "magic_hex": "504b030414000600",
+    "sheets": [
+      "Sep 22",
+      "New Schemes"
+    ],
+    "units": "INR in crore",
+    "row_count_est": 92,
+    "sample_categories": [
+      "Overnight Fund",
+      "Liquid Fund",
+      "Corporate Bond Fund",
+      "Large Cap Fund",
+      "Mid Cap Fund",
+      "Small Cap Fund",
+      "Flexi Cap Fund",
+      "Balanced Hybrid Fund/Aggressive Hybrid Fund"
+    ],
+    "sample_columns": [
+      "Scheme Name ",
+      "No. of Schemes as on September 30, 2022",
+      "No. of Folios as on September 30, 2022",
+      "Funds Mobilized for the month of September 2022 (INR in crore)",
+      "Repurchase/ Redemption for the month of September 2022 (INR in crore)",
+      "Net Inflow (+ve)/Outflow (-ve) for the month of September 2022 (INR in crore)"
+    ],
+    "notes": "FY2022-23 established single-sheet OOXML format"
+  },
+  {
+    "period": "2024-09",
+    "url": "https://portal.amfiindia.com/spages/amsep2024repo.xls",
+    "http_last_modified": "Thu, 10 Oct 2024 08:57:53 GMT",
+    "in_file_release": "Released on 10-Oct-2024",
+    "content_length": "44831",
+    "file_type": "OOXML (.xlsx disguised as .xls)",
+    "magic_hex": "504b030414000600",
+    "sheets": [
+      "Sep 24",
+      "New Schemes"
+    ],
+    "units": "INR in crore",
+    "row_count_est": 91,
+    "sample_categories": [
+      "Overnight Fund",
+      "Liquid Fund",
+      "Corporate Bond Fund",
+      "Large Cap Fund",
+      "Mid Cap Fund",
+      "Small Cap Fund",
+      "Flexi Cap Fund",
+      "Balanced Hybrid Fund/Aggressive Hybrid Fund"
+    ],
+    "sample_columns": [
+      "Scheme Name ",
+      "No. of Schemes as on September 30, 2024",
+      "No. of Folios as on September 30, 2024",
+      "Funds Mobilized for the month of September 2024 (INR in crore)",
+      "Repurchase/ Redemption for the month of September 2024 (INR in crore)",
+      "Net Inflow (+ve)/Outflow (-ve) for the month of September 2024 (INR in crore)"
+    ],
+    "notes": "FY2024-25 report with explicit in-sheet release date"
+  },
+  {
+    "period": "2026-09",
+    "url": "https://portal.amfiindia.com/spages/amsep2026repo.xls",
+    "http_last_modified": "Mon, 12 Oct 2026 06:10:10 GMT",
+    "in_file_release": null,
+    "content_length": "110080",
+    "file_type": "BIFF8 (OLE2 Compound .xls)",
+    "magic_hex": "d0cf11e0a1b11ae1",
+    "sheets": [
+      "MCR_MonthlyReport",
+      "NSR"
+    ],
+    "units": "INR in crore",
+    "row_count_est": 155,
+    "sample_categories": [
+      "Overnight Fund",
+      "Liquid Fund",
+      "Corporate Bond Fund",
+      "Large Cap Fund",
+      "Mid Cap Fund",
+      "Small Cap Fund",
+      "Flexi Cap Fund"
+    ],
+    "sample_columns": [
+      "Funds Mobilized for the month of September 2026 (INR in crore)D",
+      "Repurchase/Redemption for the month of September 2026 (INR in crore)M",
+      "Net Inflow (+ve)/Outflow (-ve) for the month of September 2026 (INR in crore)C"
+    ],
+    "notes": "Current FY2026-27 BIFF8 format with MCR_MonthlyReport sheet naming"
+  }
+]

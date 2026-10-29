@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-10-29T17:26:46.481043Z",
+  "offline": false,
+  "sources": {
+    "amfi_nav_daily": {
+      "source_id": "amfi_nav_daily",
+      "source_url": "https://www.amfiindia.com/spages/NAVAll.txt",
+      "retrieved_at": "2026-10-29T17:26:46.481049Z",
+      "http_status": 200,
+      "records_received": 18230,
+      "records_accepted": 14200,
+      "records_rejected": 241,
+      "duplicate_count": 0,
+      "missing_periods": [],
+      "latest_observation_date": "2026-10-29",
+      "cache_status": "live",
+      "error_details": null
+    },
+    "amfi_monthly_flows": {
+      "source_id": "amfi_monthly_flows",
+      "source_url": "https://www.amfiindia.com/research-information/other-data/mf-scheme-performance-details",
+      "retrieved_at": "2026-10-29T17:26:47.652317Z",
+      "http_status": 200,
+      "records_received": 543,
+      "records_accepted": 543,
+      "records_rejected": 0,
+      "duplicate_count": 0,
+      "missing_periods": [],
+      "latest_observation_date": "2026-09",
+      "cache_status": "cached",
+      "error_details": null
+    }
+  },
+  "overall_status": "pass"
+}

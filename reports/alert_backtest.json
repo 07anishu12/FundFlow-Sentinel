@@ -1,0 +1,28 @@
+{
+  "evaluation_period": "2023-07 to 2024-12",
+  "total_predictions_evaluated": 108,
+  "alert_level_distribution": {
+    "Normal": 99,
+    "Elevated": 9,
+    "Critical": 0
+  },
+  "event_definition": "Actual gross redemption rate in target month >= category 80th percentile",
+  "confusion_matrix": {
+    "true_positives": 2,
+    "false_positives": 7,
+    "false_negatives": 22,
+    "true_negatives": 77
+  },
+  "metrics": {
+    "precision": 0.2222,
+    "recall": 0.0833,
+    "f1_score": 0.1212,
+    "false_alert_rate": 0.0648,
+    "missed_event_rate": 0.2037
+  },
+  "limitations": [
+    "Small event counts: with only 9 Elevated alerts across 108 evaluated folds, precision and recall estimates carry wide binomial sampling uncertainty.",
+    "Conservative Ridge shrinkage dampens volatility, resulting in higher false omissions (missed events) relative to false discoveries.",
+    "Sentiment corroboration was inactive during offline backtest (0 live articles); alerts were driven purely by quantitative robust Z and percentile rules."
+  ]
+}

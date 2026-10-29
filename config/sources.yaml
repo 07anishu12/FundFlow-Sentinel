@@ -1,0 +1,257 @@
+version: 1
+retrieval_policy:
+  default_enabled: false
+  timeout_seconds: 30
+  max_attempts: 3
+  min_delay_seconds: 2
+  max_response_bytes: 10000000
+  honor_retry_after: true
+  automatic_public_snapshot: false
+sources:
+- id: amfi_flows
+  source_name: AMFI monthly flows
+  url: https://www.amfiindia.com/
+  data_type: category_month_flows
+  frequency: monthly
+  terms_url: https://www.amfiindia.com/terms-of-use
+  status: restricted
+  checked_on: '2026-10-28'
+  permitted_use: Personal non-commercial access only; broader ingestion/publication
+    requires permission.
+  attribution: AMFI; retain notices if permitted.
+  redistribution_status: restricted
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Terms prohibit publication/derivatives and significant electronic storage.
+    Inspect exact report and permission before retrieval; no bulk/report endpoint
+    approved.
+- id: amfi_nav
+  source_name: AMFI NAV
+  url: https://www.amfiindia.com/
+  data_type: nav_daily
+  frequency: daily
+  terms_url: https://www.amfiindia.com/terms-of-use
+  status: restricted
+  checked_on: '2026-10-28'
+  permitted_use: Personal non-commercial access only; broader ingestion/publication
+    requires permission.
+  attribution: AMFI; retain notices if permitted.
+  redistribution_status: restricted
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Terms prohibit publication/derivatives and significant electronic storage.
+    Inspect exact report and permission before retrieval; no bulk/report endpoint
+    approved.
+- id: mfapi
+  source_name: mfapi.in
+  url: https://www.mfapi.in/
+  data_type: nav_daily
+  frequency: daily
+  terms_url: ''
+  status: unverified
+  checked_on: '2026-10-28'
+  permitted_use: No data redistribution grant verified.
+  attribution: mfapi.in (unofficial wrapper); underlying AMFI provenance where verified.
+  redistribution_status: unknown
+  source_confidence: unofficial
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: 'Public landing page says free; terms footer points to same page, no substantive
+    grant found. Fallback: permission-cleared AMFI NAV or last licensed local snapshot;
+    never silently replace.'
+- id: nse_vix
+  source_name: NSE India VIX
+  url: https://www.nseindia.com/static/market-data/nse-data-policy
+  data_type: market_daily
+  frequency: daily
+  terms_url: https://www.nseindia.com/static/market-data/nse-data-policy
+  status: restricted
+  checked_on: '2026-10-28'
+  permitted_use: Subject to applicable NSE data agreement; no bulk use approved.
+  attribution: NSE / NSE Data & Analytics as applicable.
+  redistribution_status: restricted
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Data policy governs use/distribution. Exact historical VIX dataset entitlement
+    and download path remain unverified.
+- id: nifty_indices
+  source_name: NSE Indices Nifty
+  url: https://www.niftyindices.com/terms-of-use
+  data_type: market_daily
+  frequency: daily
+  terms_url: https://www.niftyindices.com/terms-of-use
+  status: restricted
+  checked_on: '2026-10-28'
+  permitted_use: Personal non-commercial site use; copying and automated collection
+    require written consent.
+  attribution: NSE Indices Limited.
+  redistribution_status: restricted
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Terms sections 7, 12 and 20 restrict redistribution and automated collection.
+    Manual/automated export not approved by this ledger.
+- id: yfinance
+  source_name: yfinance / Yahoo Finance
+  url: https://github.com/ranaroussi/yfinance
+  data_type: market_daily
+  frequency: daily
+  terms_url: https://github.com/ranaroussi/yfinance
+  status: restricted
+  checked_on: '2026-10-28'
+  permitted_use: Wrapper Apache-2.0; upstream data rights separate, README says personal
+    use only.
+  attribution: yfinance and upstream Yahoo Finance.
+  redistribution_status: restricted
+  source_confidence: unofficial
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: 'Unofficial; ^NSEI/^INDIAVIX availability not tested. Fallback: permission-cleared
+    official data or licensed local snapshot; do not evade source restrictions.'
+- id: rbi_dbie
+  source_name: RBI DBIE
+  url: https://data.rbi.org.in/DBIE/
+  data_type: macro
+  frequency: series_specific
+  terms_url: ''
+  status: unverified
+  checked_on: '2026-10-28'
+  permitted_use: Redistribution and automation permissions not established.
+  attribution: Reserve Bank of India / DBIE.
+  redistribution_status: unknown
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Official DBIE page resolves but is client-rendered. RBI brochure describes
+    download/research; not treated as a redistribution licence. Verify per-series
+    revisions and availability before P2.
+- id: rbi_rss
+  source_name: RBI RSS
+  url: https://www.rbi.org.in/Scripts/rss.aspx
+  data_type: headlines
+  frequency: on_publication
+  terms_url: ''
+  status: unverified
+  checked_on: '2026-10-28'
+  permitted_use: Feed subscription described; storage/redistribution permission not
+    established.
+  attribution: Reserve Bank of India; original item URL.
+  redistribution_status: unknown
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Official feed directory inspected; exact permitted feed and reuse terms still
+    require review. Disabled.
+- id: fed_rss
+  source_name: Federal Reserve Board press releases
+  url: https://www.federalreserve.gov/feeds/press_all.xml
+  data_type: headlines
+  frequency: on_publication
+  terms_url: https://www.federalreserve.gov/disclaimer.htm
+  status: verified
+  checked_on: '2026-10-28'
+  permitted_use: Board information public domain unless otherwise marked; exclude
+    third-party items and protected logos.
+  attribution: Board of Governors of the Federal Reserve System with original link.
+  redistribution_status: permitted_with_conditions
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: RSS endpoint linked by official feed directory; tool could not parse XML.
+    Candidate global rates context, not India-specific news. Terms reviewed; feed
+    parsing not tested.
+- id: gdelt
+  source_name: GDELT
+  url: https://gdeltproject.org/data.html
+  data_type: historical_tone
+  frequency: dataset_specific
+  terms_url: https://gdeltproject.org/about.html
+  status: verified
+  checked_on: '2026-10-28'
+  permitted_use: GDELT-released datasets permit academic/commercial/government use
+    and redistribution with citation/link.
+  attribution: GDELT Project, https://www.gdeltproject.org/
+  redistribution_status: permitted_with_conditions
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Rights do not extend to underlying publisher articles. DOC/GKG history coverage,
+    query endpoints and rate limits require inspection before P2; no huge downloads.
+- id: prosus_finbert
+  source_name: ProsusAI/finbert
+  url: https://huggingface.co/ProsusAI/finbert
+  data_type: sentiment_model
+  frequency: revision_pinned
+  terms_url: https://huggingface.co/ProsusAI/finbert
+  status: restricted
+  checked_on: '2026-10-28'
+  permitted_use: Weights CC-BY-NC-SA-4.0; commercial use excluded.
+  attribution: ProsusAI / MIH AI B.V.; model card and required licence attribution.
+  redistribution_status: restricted
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Current card explicitly states weights licence; training-code licence is
+    not weights permission. Cache only after intended-use clearance, pin revision/hash;
+    no weights retrieved.
+- id: finbert_tone
+  source_name: yiyanghkust/finbert-tone
+  url: https://huggingface.co/yiyanghkust/finbert-tone
+  data_type: sentiment_model
+  frequency: revision_pinned
+  terms_url: ''
+  status: unverified
+  checked_on: '2026-10-28'
+  permitted_use: No explicit weights licence grant found in inspected model card.
+  attribution: Huang, Wang and Yang; model card citation.
+  redistribution_status: unknown
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Do not infer weights rights from linked code. Disabled pending exact checkpoint
+    permission.
+- id: vader
+  source_name: VADER
+  url: https://github.com/cjhutto/vaderSentiment
+  data_type: sentiment_lexicon
+  frequency: revision_pinned
+  terms_url: https://github.com/cjhutto/vaderSentiment
+  status: verified
+  checked_on: '2026-10-28'
+  permitted_use: MIT for tool/lexicon; retain copyright and licence notices.
+  attribution: Hutto and Gilbert (2014); retain MIT notices.
+  redistribution_status: permitted_with_conditions
+  source_confidence: official
+  retrieved_at: ''
+  sha256: ''
+  last_outcome: not_attempted
+  enabled: false
+  notes: Preferred offline fallback candidate after pinning package/lexicon and testing.
+    No package/model installed in Wave 1. Input text rights remain separate.

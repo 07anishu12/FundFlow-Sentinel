@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  fundflow-sentinel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fundflow-sentinel:production
+    container_name: fundflow_sentinel_app
+    ports:
+      - "8501:8501"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PORT=8501
+      - FUNDFLOW_DATA_MODE=offline_snapshot
+    healthcheck:
+      test: ["CMD", "python", "scripts/healthcheck.py"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2048M
+        reservations:
+          cpus: "0.5"
+          memory: 512M
