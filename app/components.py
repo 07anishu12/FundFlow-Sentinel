@@ -93,51 +93,78 @@ def get_cached_table_frame(name: str, fingerprint: str) -> pd.DataFrame:
 
 
 def page_header(title: str, description: str) -> None:
-    """Institutional dashboard page header with branding and white theme stylesheet."""
+    """Render page shell and classify the loaded bundle without overstating provenance."""
     st.set_page_config(
         page_title=f"{title} · FundFlow Sentinel",
         page_icon="🛡️",
         layout="wide",
     )
-    # Inject Centralized White Theme CSS
     st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
-
-    # Sidebar Header (st.sidebar.title required by test contract)
     st.sidebar.title("FundFlow Sentinel")
 
-    # Sidebar Mode & Environment Indicator
     try:
-        f_res = load_table("flows_category_month")
-        mode = getattr(f_res.metadata, "mode", "unknown")
-        if mode == "live":
-            badge_html = '<span class="badge-pill badge-forecast">MODE: LIVE VERIFIED</span>'
-        elif len(f_res.frame) >= 24:
-            badge_html = f'<span class="badge-pill badge-forecast">MODE: RESEARCH ({len(f_res.frame)} M)</span>'
+        result = load_table("flows_category_month")
+        metadata = result.metadata
+        mode = str(getattr(metadata, "mode", "unknown")).lower()
+        source = str(getattr(metadata, "source", "unavailable"))
+        source_lower = source.lower()
+        synthetic = mode == "synthetic" or "synthetic" in source_lower or "demo" in source_lower
+        if synthetic:
+            badge = "MODE: SYNTHETIC FIXTURE"
+        elif mode == "live":
+            # A manifest mode describes the materialized bundle; page rendering itself
+            # performs no network fetch and does not independently prove source freshness.
+            badge = "MODE: LIVE-MODE BUNDLE"
+        elif mode == "offline_snapshot":
+            badge = "MODE: OFFLINE SNAPSHOT"
         else:
-            badge_html = '<span class="badge-pill badge-scenario">MODE: OFFLINE DEMO</span>'
-        st.sidebar.markdown(badge_html, unsafe_allow_html=True)
+            badge = "MODE: SOURCE UNVERIFIED"
+        st.sidebar.markdown(
+            f'<span class="badge-pill badge-scenario">{html.escape(badge)}</span>',
+            unsafe_allow_html=True,
+        )
     except Exception:
-        pass
+        metadata = None
+        mode = "unknown"
+        source = "unavailable"
+        synthetic = False
+        st.sidebar.markdown(
+            '<span class="badge-pill badge-scenario">MODE: SOURCE UNVERIFIED</span>',
+            unsafe_allow_html=True,
+        )
 
     st.sidebar.caption("Category research · institutional risk monitor")
     st.sidebar.divider()
-
-    # Main Header
     st.title(title)
     st.caption(description)
 
-    # Mandatory Data Integrity Banner
-    try:
-        f_res = load_table("flows_category_month")
-        mode = getattr(f_res.metadata, "mode", "unknown")
-    except Exception:
-        mode = "unknown"
-
-    if mode == "live":
-        st.info("LIVE DATA VERIFIED · Showing verified live data from official source registry.")
+    # Never infer live verification from a label alone. The dashboard reads local
+    # artifacts; it does not refresh external sources during page rendering.
+    if synthetic:
+        st.warning(
+            "SYNTHETIC DEMO DATA · This bundle contains synthetic fixture records. "
+            "Do not interpret its values as real market observations or validated forecasts."
+        )
+        st.caption(
+            "Production readiness: BLOCKED until real, permission-cleared source data "
+            "replace these fixtures and their provenance is independently validated."
+        )
+    elif mode == "offline_snapshot":
+        st.warning(
+            "OFFLINE SNAPSHOT · The dashboard is reading a local snapshot, not fetching "
+            "live data. Check its observation period and source provenance before use."
+        )
+    elif mode == "live":
+        st.info(
+            "LIVE-MODE BUNDLE · The local bundle declares live mode, but this page does "
+            "not perform a network refresh. Verify source URL, retrieval time, observation "
+            "date, and accepted/rejected row counts in the evidence ledger."
+        )
     else:
-        st.warning("SYNTHETIC DEMO DATA · Values are illustrative and must not be interpreted as real observations or validated forecasts.")
-
+        st.warning(
+            "DATA SOURCE UNVERIFIED · No verified live-data status can be established "
+            "from the current bundle. Observations and derived metrics are withheld where unavailable."
+        )
 
 def metric_card(title: str, value: Any, *, kind: str, period: str, units: str, source: str) -> None:
     """Render an institutional financial metric card with strict data classification."""
