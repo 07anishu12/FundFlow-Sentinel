@@ -42,6 +42,7 @@ from app.loaders import (
     load_shortlist,
     load_source_metadata,
     load_table,
+    _bundle,
 )
 from fundflow.contracts import COLUMNS
 
@@ -79,6 +80,20 @@ def forbid_network(monkeypatch):
 # ---------------------------------------------------------------------------
 # 1. Network Boundary Tests
 # ---------------------------------------------------------------------------
+
+
+def test_duplicate_root_manifest_selects_materialized_nested_snapshot(tmp_path):
+    """An identical root manifest cannot shadow the snapshot directory that owns its tables."""
+    nested = tmp_path / "snapshots"
+    nested.mkdir()
+    manifest = {"version": 1, "mode": "offline_snapshot", "source": "test bundle", "generated_at": "2026-10-28T00:00:00Z", "tables": ["flows_category_month"], "artifacts": []}
+    encoded = json.dumps(manifest, sort_keys=True).encode("utf-8")
+    (nested / "manifest.json").write_bytes(encoded)
+    (tmp_path / "manifest.json").write_bytes(encoded)
+    (tmp_path / "quality_report.json").write_text("{}")
+    (tmp_path / "source_metadata.json").write_text("{}")
+    assert _bundle(tmp_path, None) == nested.resolve()
+
 
 def test_loaders_make_no_network_requests():
     """Verify default loaders operate completely offline."""

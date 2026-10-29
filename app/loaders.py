@@ -88,6 +88,19 @@ def _bundle(root: Path, bundle: str | None) -> Path:
         return _safe_path(root, selected.relative_to(root.resolve()))
     for relative in ("", "snapshots"):
         candidate = _safe_path(root, relative)
+        manifest_path = candidate / "manifest.json"
+        # Avoid selecting a duplicate root manifest when its declared tables are
+        # materialized only under data/snapshots. Preserve fail-closed semantics
+        # for every non-identical or otherwise incomplete bundle.
+        if relative == "" and manifest_path.is_file():
+            nested_manifest = root / "snapshots" / "manifest.json"
+            has_root_tables = (candidate / "processed").is_dir() or (candidate / "outputs").is_dir()
+            if nested_manifest.is_file() and not has_root_tables:
+                try:
+                    if manifest_path.read_bytes() == nested_manifest.read_bytes():
+                        continue
+                except OSError:
+                    pass
         if any((candidate / name).exists() or (candidate / name).is_symlink() for name in ("manifest.json", "processed", "outputs", "quality_report.json", "source_metadata.json")):
             return candidate
     return _safe_path(root, "snapshots/fixtures")

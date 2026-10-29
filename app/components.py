@@ -29,6 +29,7 @@ from app.formatters import (
     format_period,
     format_timestamp,
     format_provenance_label,
+    format_metric_display,
 )
 from app.loaders import (
     load_table,
@@ -188,38 +189,45 @@ def stop_if_synthetic_bundle() -> bool:
         return True
     return False
 
+def _optional_numeric(value: Any, precision: int = 2) -> float | None:
+    """Return a finite rounded number, or None when unavailable."""
+    if value is None or isinstance(value, bool):
+        return None
+    try:
+        number = float(value)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    return round(number, precision) if math.isfinite(number) else None
+
+
+def _metric_can_be_negative(title: str, units: str) -> bool:
+    """Classify metric sign using domain semantics, not numeric sign alone."""
+    title_l, units_l = title.casefold(), units.casefold()
+    nonnegative_units = ("scheme", "table", "check", "article", "observation count", "tier", "pctile", "percentile", "volatility")
+    if any(x in units_l for x in nonnegative_units):
+        return False
+    nonnegative_titles = ("aum", "gross redemption", "redemption count", "inflow", "outflow", "volatility", "consistency", "percentile", "pctile", "shortlist count", "count", "checks", "sources", "articles", "evaluated folds", "mae", "rmse", "tracking error", "standard deviation", "variance")
+    if any(x in title_l for x in nonnegative_titles):
+        return False
+    signed_titles = ("net flow", "return", "cagr", "drawdown", "forecast gap", "gap", "z-score", "robust z", "robust_z", "momentum", "polarity", "sentiment", "change", "delta", "excess return", "mean score")
+    return any(x in title_l for x in signed_titles) or "[-1, 1]" in units_l or "[-1,1]" in units_l
+
+
 def metric_card(title: str, value: Any, *, kind: str, period: str, units: str, source: str) -> None:
-    """Render an institutional financial metric card with strict data classification."""
+    """Render a metric without presenting missing/error values as financial observations."""
     if kind not in KINDS:
         raise ValueError("Metric kind must be OBSERVED, FORECAST or SCENARIO")
     if not period or not units or not source:
         raise ValueError("Metric period, units and source are required")
-
-    disp_val = str(value)
-    if isinstance(value, (int, float)):
-        if "crore" in units.lower() or "₹" in units:
-            disp_val = format_number(value, precision=2)
-        elif "%" in units:
-            disp_val = format_number(value, precision=2)
-        else:
-            disp_val = format_number(value, precision=2)
-    elif isinstance(value, str):
-        try:
-            val_f = float(value.replace(",", "").replace("₹", "").replace("%", "").strip())
-            disp_val = format_number(val_f, precision=2)
-        except (ValueError, TypeError):
-            disp_val = str(value)
-
-    # Streamlit native metric satisfying test label prefix invariants
-    st.metric(f"{kind} · {title}", f"{disp_val} {units}")
-    prov_label = format_provenance_label(source)
-    st.caption(f"Period: {format_period(period)} · Provenance: {prov_label}")
+    shown = format_metric_display(value, units, precision=2, can_be_negative=_metric_can_be_negative(title, units))
+    st.metric(f"{kind} · {title}", shown)
+    st.caption(f"Period: {format_period(period)} · Provenance: {format_provenance_label(source)}")
 
 
 def freshness_banner(*, as_of: str = "unavailable", period: str = "unavailable", metadata=None) -> None:
     """Render a compact freshness status strip."""
-    mode_str = getattr(metadata, "mode", "snapshot") if metadata else "snapshot"
-    source_str = getattr(metadata, "source", "AMFI historical archive") if metadata else "AMFI archive"
+    mode_str = getattr(metadata, "mode", "unknown") if metadata else "unknown"
+    source_str = getattr(metadata, "source", "unavailable") if metadata else "unavailable"
     prov_clean = format_provenance_label(source_str)
 
     st.info(
@@ -275,7 +283,7 @@ def _render_command_centre():
     st.markdown('<div class="fin-card">', unsafe_allow_html=True)
     f1, f2, f3, f4 = st.columns([2, 2, 2, 1.5])
     with f1:
-        st.selectbox("Data Source", ["AMFI Official Category Monthly Flows"], key="cc_datasource")
+        st.caption(f"Data bundle: {flow_res.metadata.source} · Mode: {flow_res.metadata.mode.upper()}")
     with f2:
         selected_cat = st.selectbox("Category Universe", categories, index=0 if categories else 0, key="cc_category")
     
@@ -287,8 +295,10 @@ def _render_command_centre():
 
     with f4:
         st.markdown('<div style="height: 28px;"></div>', unsafe_allow_html=True)
-        if st.button("🔄 Refresh Data", key="cc_refresh_btn", use_container_width=True):
-            st.toast("✓ Local cache re-verified against source registry (AMFI, RBI, NSE). All records valid.")
+        if st.button("↻ Reload Local Bundle", key="cc_refresh_btn", use_container_width=True):
+            # This is a local reload only; no external feed has been queried.
+            st.cache_data.clear()
+            st.rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -313,14 +323,21 @@ def _render_command_centre():
     f_rate = cat_alert.get("forecast_rate") if cat_alert is not None else None
     f_target = cat_alert.get("target_month", "N/A") if cat_alert is not None else "N/A"
     outflow_cr = cat_alert.get("est_outflow_cr") if cat_alert is not None else None
-    alert_lvl = cat_alert.get("level", "Normal") if cat_alert is not None else "Normal"
+    alert_lvl = cat_alert.get("level", "Unavailable") if cat_alert is not None else "Unavailable"
 
     # Evaluate Actual-versus-Forecast Gap for target period
     # When target month has an actual observation in cat_df, calculate realized forecast error
     actual_target_row = cat_df[cat_df["month"] == f_target] if not cat_df.empty and f_target in months else pd.DataFrame()
     actual_target_outflow = float(actual_target_row.iloc[0]["gross_redemption_cr"]) if not actual_target_row.empty else None
     
-    gap_info = calculate_forecast_gap(actual_target_outflow, float(outflow_cr) if outflow_cr is not None else 0.0)
+    if actual_target_outflow is not None and outflow_cr is not None:
+        try:
+            forecast_outflow_value = float(outflow_cr)
+            gap_info = calculate_forecast_gap(actual_target_outflow, forecast_outflow_value) if math.isfinite(forecast_outflow_value) else {"status": "unobserved", "gap": None, "abs_gap": None, "pct_error": None, "direction": "unobserved"}
+        except (TypeError, ValueError, OverflowError):
+            gap_info = {"status": "unobserved", "gap": None, "abs_gap": None, "pct_error": None, "direction": "unobserved"}
+    else:
+        gap_info = {"status": "unobserved", "gap": None, "abs_gap": None, "pct_error": None, "direction": "unobserved"}
 
     # Row 1: 3 Cards (Observed AUM, Observed Redemptions, Forecast Rate)
     c1, c2, c3 = st.columns(3)
@@ -331,7 +348,7 @@ def _render_command_centre():
             kind="OBSERVED",
             period=str(row.get("month", selected_month)) if row is not None else selected_month,
             units="₹ crore",
-            source=str(row.get("source_url", "AMFI monthly report")) if row is not None else "AMFI archive",
+            source=str(row.get("source_url", "")).strip() if row is not None and str(row.get("source_url", "")).strip() else "unavailable",
         )
     with c2:
         metric_card(
@@ -340,7 +357,7 @@ def _render_command_centre():
             kind="OBSERVED",
             period=str(row.get("month", selected_month)) if row is not None else selected_month,
             units="₹ crore",
-            source=str(row.get("source_url", "AMFI monthly report")) if row is not None else "AMFI archive",
+            source=str(row.get("source_url", "")).strip() if row is not None and str(row.get("source_url", "")).strip() else "unavailable",
         )
     with c3:
         metric_card(
@@ -464,7 +481,7 @@ def _render_command_centre():
     st.subheader("Cross-Category Risk Overview")
 
     summary_rows = []
-    latest_month = flow_df["month"].max() if "month" in flow_df.columns else "2024-09"
+    latest_month = flow_df["month"].max() if "month" in flow_df.columns else "unavailable"
     latest_flows = flow_df[flow_df["month"] == latest_month]
 
     for cat in sorted(flow_df["category"].unique()):
@@ -481,12 +498,12 @@ def _render_command_centre():
         summary_rows.append({
             "Category": cat,
             "Latest Month": str(c_row.get("month", latest_month)),
-            "Closing AUM (₹ cr)": round(float(c_row.get("aum_close_cr", 0.0)), 2),
-            "Gross Redemptions (₹ cr)": round(float(c_row.get("gross_redemption_cr", 0.0)), 2),
-            "Forecast Rate (%)": round(float(c_alert.get("forecast_rate", 0.0)), 2) if c_alert is not None else 0.0,
+            "Closing AUM (₹ cr)": _optional_numeric(c_row.get("aum_close_cr")),
+            "Gross Redemptions (₹ cr)": _optional_numeric(c_row.get("gross_redemption_cr")),
+            "Forecast Rate (%)": _optional_numeric(c_alert.get("forecast_rate")) if c_alert is not None else None,
             "Target Month": str(c_alert.get("target_month", "N/A")) if c_alert is not None else "N/A",
-            "Alert Level": str(c_alert.get("level", "Normal")) if c_alert is not None else "Normal",
-            "Data Status": "Validated",
+            "Alert Level": str(c_alert.get("level", "Unavailable")) if c_alert is not None else "Unavailable",
+            "Data Status": str(flow_res.status).upper(),
         })
 
     if summary_rows:
@@ -654,11 +671,13 @@ def _render_forecast_lab():
     if not pred_df.empty:
         cat_preds = pred_df[pred_df["category"] == entity_choice] if entity_choice and "category" in pred_df.columns else pred_df
         try:
-            pred_rate = float(cat_preds.iloc[-1]["predicted_rate"]) if not cat_preds.empty else 4.0
-            as_of_val = str(cat_preds.iloc[-1].get("as_of", "9999-12-31T23:59:59Z")) if not cat_preds.empty else "9999-12-31T23:59:59Z"
-            bands = compute_empirical_residual_bands(cat_preds, current_as_of=as_of_val, predicted_rate=pred_rate)
-            if bands.get("band_status") != "ok" and len(pred_df) >= 10:
-                bands = compute_empirical_residual_bands(pred_df, current_as_of=as_of_val, predicted_rate=pred_rate)
+            if not cat_preds.empty:
+                pred_rate = pd.to_numeric(cat_preds.iloc[-1].get("predicted_rate"), errors="coerce")
+                as_of_val = str(cat_preds.iloc[-1].get("as_of", "")).strip()
+                if pd.notna(pred_rate) and math.isfinite(float(pred_rate)) and as_of_val and as_of_val.lower() not in {"none", "nan", "n/a", "unavailable"}:
+                    bands = compute_empirical_residual_bands(cat_preds, current_as_of=as_of_val, predicted_rate=float(pred_rate))
+                    if bands.get("band_status") != "ok" and len(pred_df) >= 10:
+                        bands = compute_empirical_residual_bands(pred_df, current_as_of=as_of_val, predicted_rate=float(pred_rate))
         except Exception:
             bands = None
 
@@ -668,7 +687,7 @@ def _render_forecast_lab():
         with b1:
             metric_card("Lower bound (P10)", bands["lower_band"], kind="SCENARIO", period="1M", units="%", source="empirical quantile")
         with b2:
-            metric_card("Point forecast", bands.get("predicted_rate", 4.0), kind="FORECAST", period="1M", units="%", source="Ridge regression")
+            metric_card("Point forecast", bands.get("predicted_rate"), kind="FORECAST", period="1M", units="%", source="Ridge regression")
         with b3:
             metric_card("Upper bound (P90)", bands["upper_band"], kind="SCENARIO", period="1M", units="%", source="empirical quantile")
         st.caption(f"Offsets: P10 offset = {bands.get('q10_offset')} pp, P90 offset = +{bands.get('q90_offset')} pp relative to point forecast.")
@@ -720,9 +739,16 @@ def _render_sentiment_monitor():
         display_items = items_df.tail(8)
         for _, item in display_items.iterrows():
             title_clean = sanitize_display_text(item.get("title", "Headline unavailable"))
-            score_val = item.get("sentiment_score", 0.0)
-            score_num = float(score_val) if pd.notna(score_val) else 0.0
-            badge_class = "badge-critical" if score_num < -0.2 else "badge-forecast" if score_num > 0.2 else "badge-normal"
+            # The frozen sentiment_items contract calls this field "score". Missing
+            # values remain unavailable; they must not be represented as neutral zero.
+            score_val = item.get("score")
+            try:
+                parsed_score = float(score_val) if score_val not in (None, "") else float("nan")
+                score_num = parsed_score if math.isfinite(parsed_score) else None
+            except (TypeError, ValueError, OverflowError):
+                score_num = None
+            badge_class = "badge-critical" if score_num is not None and score_num < -0.2 else "badge-forecast" if score_num is not None and score_num > 0.2 else "badge-normal"
+            score_label = f"SCORE: {score_num:+.2f}" if score_num is not None else "SCORE: N/A"
             source_url = safe_url(item.get("url"))
 
             link_html = f'<a href="{source_url}" target="_blank" style="color: #175CD3; text-decoration: none;">🔗 Source</a>' if source_url else '<span style="color: #98A2B3;">Direct feed</span>'
@@ -731,7 +757,7 @@ def _render_sentiment_monitor():
                 f"""
                 <div class="fin-card" style="padding: 14px 18px; margin-bottom: 10px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <span class="badge-pill {badge_class}">SCORE: {score_num:+.2f}</span>
+                        <span class="badge-pill {badge_class}">{score_label}</span>
                         <span style="font-size: 11px; color: #98A2B3;">{item.get('published_at', '')[:10]} · {link_html}</span>
                     </div>
                     <div style="font-size: 14px; font-weight: 600; color: #172033; line-height: 1.4;">
@@ -781,10 +807,10 @@ def _render_fund_research():
     with m1:
         metric_card("Shortlist count", len(sl_df), kind="OBSERVED", period=str(period_val), units="schemes", source="shortlist rule")
     with m2:
-        min_ret = sl_df["p_return"].min() if "p_return" in sl_df.columns else 0.0
+        min_ret = sl_df["p_return"].min() if "p_return" in sl_df.columns else None
         metric_card("Min 3Y Return", min_ret, kind="OBSERVED", period=str(period_val), units="pctile", source="AMFI NAV 36M")
     with m3:
-        max_ret = sl_df["p_return"].max() if "p_return" in sl_df.columns else 0.0
+        max_ret = sl_df["p_return"].max() if "p_return" in sl_df.columns else None
         metric_card("Max 3Y Return", max_ret, kind="OBSERVED", period=str(period_val), units="pctile", source="AMFI NAV 36M")
 
     st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
@@ -822,22 +848,25 @@ def _render_stress_lab():
     sel_cat = st.selectbox("Category to Stress", categories, key="stress_cat")
 
     cat_df = flow_df[flow_df["category"] == sel_cat].sort_values("month") if "category" in flow_df.columns else flow_df
-    ref_aum = float(cat_df.iloc[-1].get("aum_close_cr", 10000.0)) if not cat_df.empty else 10000.0
-    latest_month = str(cat_df.iloc[-1].get("month", "2024-09")) if not cat_df.empty else "2024-09"
-
+    latest_row = cat_df.iloc[-1] if not cat_df.empty else None
+    raw_aum = latest_row.get("aum_close_cr") if latest_row is not None else None
+    latest_month = str(latest_row.get("month", "")).strip() if latest_row is not None else ""
+    ref_aum = _optional_numeric(raw_aum)
+    if ref_aum is None or ref_aum <= 0 or not latest_month or latest_month.lower() in {"none", "nan", "n/a", "unavailable"}:
+        freshness_banner(as_of="unavailable", period=latest_month or "unavailable", metadata=flow_res.metadata)
+        st.warning("Stress scenarios are unavailable because a valid reference AUM observation and period are missing.")
+        return
     freshness_banner(as_of=latest_month, period=latest_month, metadata=flow_res.metadata)
-
-    # Scenarios Table
     scenarios = scenario_table(ref_aum)
-
+    severe_rows = scenarios[scenarios["scenario_name"] == "severe"] if "scenario_name" in scenarios.columns else pd.DataFrame()
+    sev_out = _optional_numeric(severe_rows.iloc[0].get("est_outflow_cr")) if not severe_rows.empty else None
+    share_pct = round((sev_out / ref_aum) * 100.0, 2) if sev_out is not None and ref_aum > 0 else None
     c1, c2, c3 = st.columns(3)
     with c1:
-        metric_card("Category AUM", ref_aum, kind="OBSERVED", period=latest_month, units="₹ crore", source="AMFI monthly report")
+        metric_card("Category AUM", ref_aum, kind="OBSERVED", period=latest_month, units="₹ crore", source="validated flow bundle")
     with c2:
-        sev_out = float(scenarios[scenarios["scenario_name"] == "severe"]["est_outflow_cr"].iloc[0]) if "severe" in scenarios["scenario_name"].values else 500.0
-        metric_card("Severe stress outflow", sev_out, kind="SCENARIO", period=latest_month, units="₹ crore", source="3x multiplier")
+        metric_card("Severe stress outflow", sev_out, kind="SCENARIO", period=latest_month, units="₹ crore", source="stress scenario engine")
     with c3:
-        share_pct = round((sev_out / ref_aum) * 100.0, 2) if ref_aum > 0 else 0.0
         metric_card("Outflow share", share_pct, kind="SCENARIO", period=latest_month, units="%", source="scenario ratio")
 
     st.markdown('<div style="height: 20px;"></div>', unsafe_allow_html=True)
