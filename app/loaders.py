@@ -124,6 +124,26 @@ def _metadata(document: dict, *, now: datetime, stale_days: int, mode: Mode) -> 
     return Metadata(mode=mode, source=document["source"], generated_at=generated, freshness=freshness)
 
 
+def _validate_declared_file(root: Path, directory: Path, relative: str, manifest: dict) -> None:
+    """Fail closed when a versioned manifest inventory does not match its table file."""
+    files = manifest.get("files")
+    if files is None:
+        return  # Older test bundles predate file inventories.
+    if not isinstance(files, list):
+        raise ValueError("Manifest files must be a list")
+    matches = [entry for entry in files if isinstance(entry, dict) and entry.get("path") == relative]
+    if len(matches) != 1:
+        raise ValueError("Declared file inventory entry missing or duplicated")
+    entry = matches[0]
+    path = _safe_path(root, directory.relative_to(root) / relative)
+    if path.is_symlink() or not path.is_file():
+        raise ValueError("Declared file is missing or unsafe")
+    if entry.get("size_bytes") != path.stat().st_size:
+        raise ValueError("Declared file size does not match")
+    if not isinstance(entry.get("sha256"), str) or hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:
+        raise ValueError("Declared file digest does not match")
+
+
 def _context(root: Path, bundle: str | None, now: datetime | None, stale_days: int):
     root = root.resolve()
     now = now or datetime.now(timezone.utc)
@@ -148,6 +168,9 @@ def _context(root: Path, bundle: str | None, now: datetime | None, stale_days: i
         if not isinstance(artifacts, list) or any(not isinstance(n, str) or n not in ARTIFACTS for n in artifacts):
             raise ValueError("Invalid artifact declaration")
         metadata = _metadata(manifest, now=now, stale_days=stale_days, mode=mode)
+        files = manifest.get("files", [])
+        if isinstance(files, list) and any(isinstance(item, dict) and item.get("origin") == "synthetic" for item in files):
+            metadata = Metadata("synthetic", metadata.source, metadata.last_period, metadata.generated_at, metadata.freshness)
     return root, directory, manifest, metadata, legacy, now
 
 
@@ -173,6 +196,8 @@ def load_table(name: str, *, data_root: Path | None = None, bundle: str | None =
         if name not in manifest["tables"]:
             return TableResult(empty, "Dataset unavailable: not declared in the manifest. Data withheld.", "missing", metadata)
         relative = f"{name}.csv" if legacy else f"{'processed' if name in PROCESSED else 'outputs'}/{name}.csv"
+        if not legacy:
+            _validate_declared_file(root, directory, relative, manifest)
         path = _safe_path(root, directory.relative_to(root) / relative)
         try:
             frame = pd.read_csv(path, dtype=str, keep_default_na=False)
@@ -221,7 +246,9 @@ def load_artifact(name: str, *, data_root: Path | None = None, bundle: str | Non
         root, directory, manifest, metadata, legacy, clock = _context(Path(data_root or DATA_ROOT), bundle, now, stale_days)
         if legacy or name not in manifest.get("artifacts", []):
             return JsonResult(message="Artifact unavailable: not declared in the manifest.", status="missing", metadata=metadata)
-        document = _json(_safe_path(root, directory.relative_to(root) / ARTIFACTS[name]))
+        relative = ARTIFACTS[name]
+        _validate_declared_file(root, directory, relative, manifest)
+        document = _json(_safe_path(root, directory.relative_to(root) / relative))
         if type(document.get("version")) is not int or document["version"] != 1:
             raise ValueError("Invalid artifact version")
         metadata = _metadata(document, now=clock, stale_days=stale_days, mode=metadata.mode)

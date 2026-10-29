@@ -12,6 +12,7 @@ Covers:
 - Absence of business calculations inside loaders and presentation boundaries
 """
 from datetime import datetime, timedelta, timezone
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -45,6 +46,24 @@ from app.loaders import (
 from fundflow.contracts import COLUMNS
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _write_indexed_predictions_bundle(root: Path, *, origin: str = "observed") -> None:
+    relative = "outputs/predictions.csv"
+    path = root / relative
+    path.parent.mkdir(parents=True, exist_ok=True)
+    content = (",".join(COLUMNS["predictions"]) + "\n").encode()
+    path.write_bytes(content)
+    manifest = {
+        "version": 1,
+        "mode": "offline_snapshot",
+        "source": "test bundle",
+        "generated_at": "2026-10-28T00:00:00Z",
+        "tables": ["predictions"],
+        "artifacts": [],
+        "files": [{"path": relative, "size_bytes": len(content), "sha256": hashlib.sha256(content).hexdigest(), "rows": 0, "origin": origin, "source_id": "test"}],
+    }
+    (root / "manifest.json").write_text(json.dumps(manifest))
 
 
 @pytest.fixture(autouse=True)
@@ -600,6 +619,20 @@ def test_fallback_to_fixtures_declares_synthetic_mode(tmp_path):
     assert res.metadata.mode == "synthetic"
     assert "synthetic" in res.metadata.source.lower()
     assert not res.frame.empty
+
+
+def test_indexed_synthetic_origin_overrides_snapshot_mode(tmp_path):
+    _write_indexed_predictions_bundle(tmp_path, origin="synthetic")
+    res = load_predictions(data_root=tmp_path)
+    assert res.metadata.mode == "synthetic"
+
+
+def test_indexed_file_digest_mismatch_is_rejected(tmp_path):
+    _write_indexed_predictions_bundle(tmp_path)
+    (tmp_path / "outputs/predictions.csv").write_text("changed\n")
+    res = load_predictions(data_root=tmp_path)
+    assert res.status == "invalid"
+    assert res.frame.empty
 
 
 # ---------------------------------------------------------------------------

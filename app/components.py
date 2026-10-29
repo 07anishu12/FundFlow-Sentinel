@@ -880,6 +880,11 @@ def _render_evidence_and_limits():
     qr = load_quality_metadata()
     sr = load_source_metadata()
 
+    if qr.status != "ok":
+        st.error(qr.message or "Quality report unavailable; no current quality result can be shown.")
+    if sr.status != "ok":
+        st.error(sr.message or "Source registry metadata unavailable.")
+
     synthetic_bundle = st.session_state.get("_fundflow_synthetic_bundle", False)
     if qr.status == "ok" and qr.payload and not synthetic_bundle:
         c1, c2, c3 = st.columns(3)

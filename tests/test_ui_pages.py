@@ -97,5 +97,6 @@ def test_evidence_and_limits_smoke():
     assert any("SYNTHETIC DEMO DATA" in w.value for w in app.warning)
     # Verify redistribution policy warning is present
     assert any("STRICT REDISTRIBUTION POLICY" in w.value for w in app.warning)
-    # Verify dataframes rendered for quality checks, sources, table availability
-    assert len(app.dataframe) >= 2
+    # Quality report fails manifest integrity; only the matching source metadata is shown.
+    assert len(app.dataframe) == 1
+    assert any("invalid path, metadata or contents" in e.value for e in app.error)
