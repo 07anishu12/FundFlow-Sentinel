@@ -541,7 +541,7 @@ def _render_forecast_lab():
     if stop_if_synthetic_bundle():
         return
     flow_res = load_table("flows_category_month")
-    freshness_banner(as_of="2024-09-30", period="v1", metadata=flow_res.metadata)
+    freshness_banner(as_of=flow_res.metadata.generated_at or "unavailable", period=flow_res.metadata.last_period or "unavailable", metadata=flow_res.metadata)
 
     if flow_res.frame.empty:
         st.info("No flow observations available in current bundle.")
@@ -856,7 +856,7 @@ def _render_stress_lab():
         freshness_banner(as_of="unavailable", period=latest_month or "unavailable", metadata=flow_res.metadata)
         st.warning("Stress scenarios are unavailable because a valid reference AUM observation and period are missing.")
         return
-    freshness_banner(as_of=latest_month, period=latest_month, metadata=flow_res.metadata)
+    freshness_banner(as_of=flow_res.metadata.generated_at or latest_month, period=latest_month, metadata=flow_res.metadata)
     scenarios = scenario_table(ref_aum)
     severe_rows = scenarios[scenarios["scenario_name"] == "severe"] if "scenario_name" in scenarios.columns else pd.DataFrame()
     sev_out = _optional_numeric(severe_rows.iloc[0].get("est_outflow_cr")) if not severe_rows.empty else None

@@ -13,11 +13,14 @@
 6. **False refresh success:** The refresh button claimed the cache had been re-verified and all records were valid, but it did not refresh or verify external feeds.
 7. **Stale reports:** Multiple checked-in reports claimed 72 months of real AMFI flows and current passing release checks despite the default snapshot being demonstration data. Their release verdicts are now marked historical/superseded.
 
+8. **CI clean-checkout fixture isolation:** GitHub Actions run [40938143877](https://github.com/07anishu12/FundFlow-Sentinel/actions/runs/40938143877) failed at `test_cli_stage_build_data` and `test_cli_run_all_end_to_end` with `FileNotFoundError` because `tests/test_cli.py:sample_dataset` directly referenced git-ignored `data/processed/flows_category_month.csv`. In clean CI checkouts, `data/processed/` does not exist on disk.
+
 ## Remediation in this branch
 
 - Set CI `PYTHONPATH=src`.
+- Updated `tests/test_cli.py:sample_dataset` to fall back to committed snapshot fixtures (`data/snapshots/processed/` or `data/snapshots/fixtures/`), ensuring clean CI checkouts pass offline tests.
 - Skip an identical root manifest only when the nested snapshot is the materialized bundle and root table directories are absent; other bundle errors remain fail-closed.
-- Add domain-aware formatting and regression tests for invalid non-negative metrics, legitimate negative returns/flows, and missing placeholders.
+- Add domain-aware formatting and regression tests for invalid non-negative metrics, legitimate negative returns/flows, genuine zeros, and missing placeholders.
 - Remove fabricated defaults from the command centre, uncertainty bands, sentiment display, cross-category summary, and stress lab.
 - Change the refresh control to reload local data only, without claiming external requests occurred.
 - Correct README wording and supersede stale readiness/verification reports.
@@ -28,4 +31,9 @@ No new external datasets were added. The default data bundle remains a demonstra
 
 ## Verification status
 
-Automated tests have not yet been run against the remediation branch. The GitHub Actions result will be checked after the commit/PR triggers CI.
+Locally verified:
+- `python -m compileall src app tests -q` (clean bytecode compile)
+- `python -m pytest -q tests/test_contracts.py` (32 passed in 0.19s)
+- `python -m fundflow.cli snapshot --verify` (offline snapshot integrity passed)
+- `python -m pytest -q` (350 passed in 9.70s, including clean-checkout simulation without `data/processed`)
+- `python -m pytest -q tests/test_ui_pages.py tests/test_snapshots.py` (27 passed in 1.08s)

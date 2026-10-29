@@ -79,3 +79,11 @@ def test_missing_text_is_not_rendered_with_trailing_units():
     assert format_metric_display("N/A", "₹ crore") == "N/A"
     assert format_metric_display("None", "schemes") == "N/A"
     assert format_metric_display("Data unavailable", "%") == "N/A"
+
+
+def test_genuine_zeros_are_preserved():
+    assert not is_sentinel_or_missing(0, can_be_negative=False)
+    assert not is_sentinel_or_missing(0.0, can_be_negative=False)
+    assert format_metric_display(0.0, "₹ crore", can_be_negative=False) == "₹0.00 crore"
+    assert format_metric_display(0, "%", can_be_negative=False) == "0.00%"
+    assert format_metric_display(0, "schemes", precision=0, can_be_negative=False) == "0 schemes"
