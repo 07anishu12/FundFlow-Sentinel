@@ -108,7 +108,13 @@ def page_header(title: str, description: str) -> None:
         mode = str(getattr(metadata, "mode", "unknown")).lower()
         source = str(getattr(metadata, "source", "unavailable"))
         source_lower = source.lower()
-        synthetic = mode == "synthetic" or "synthetic" in source_lower or "demo" in source_lower
+        synthetic = (
+            mode == "synthetic"
+            or "synthetic" in source_lower
+            or "demo" in source_lower
+            or "FUNDFLOW_FIXTURE_DIR" in os.environ
+            or mode not in {"live", "offline_snapshot"}
+        )
         if synthetic:
             badge = "MODE: SYNTHETIC FIXTURE"
         elif mode == "live":
@@ -127,7 +133,7 @@ def page_header(title: str, description: str) -> None:
         metadata = None
         mode = "unknown"
         source = "unavailable"
-        synthetic = False
+        synthetic = True
         st.sidebar.markdown(
             '<span class="badge-pill badge-scenario">MODE: SOURCE UNVERIFIED</span>',
             unsafe_allow_html=True,
