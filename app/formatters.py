@@ -23,6 +23,10 @@ def format_currency_crore(value: Any, precision: int = 2) -> str:
     """
     if value is None:
         return "N/A"
+    if isinstance(value, str):
+        cleaned = value.strip().lower()
+        if cleaned in {"", "none", "nan", "n/a", "na", "unavailable", "data unavailable"}:
+            return "N/A"
     try:
         val_f = float(value)
         if not math.isfinite(val_f):
@@ -50,6 +54,10 @@ def format_rate_pct(value: Any, precision: int = 2, show_sign: bool = False) -> 
     """
     if value is None:
         return "N/A"
+    if isinstance(value, str):
+        cleaned = value.strip().lower()
+        if cleaned in {"", "none", "nan", "n/a", "na", "unavailable", "data unavailable"}:
+            return "N/A"
     try:
         val_f = float(value)
         if not math.isfinite(val_f):
@@ -77,6 +85,10 @@ def format_number(value: Any, precision: int = 2) -> str:
     """
     if value is None:
         return "N/A"
+    if isinstance(value, str):
+        cleaned = value.strip().lower()
+        if cleaned in {"", "none", "nan", "n/a", "na", "unavailable", "data unavailable"}:
+            return "N/A"
     try:
         val_f = float(value)
         if not math.isfinite(val_f):
@@ -88,6 +100,51 @@ def format_number(value: Any, precision: int = 2) -> str:
     abs_val = abs(val_f)
     num_str = f"{abs_val:,.{precision}f}"
     return f"−{num_str}" if is_negative else num_str
+
+
+def is_sentinel_or_missing(value: Any, can_be_negative: bool = False) -> bool:
+    """Check if value is a sentinel placeholder (-1, -999) or missing data (None, NaN)."""
+    if value is None:
+        return True
+    if isinstance(value, str):
+        cleaned = value.strip().lower()
+        if cleaned in {"", "none", "nan", "n/a", "na", "unavailable", "data unavailable"}:
+            return True
+        if not can_be_negative and cleaned in {"-1", "-1.0", "-1.00", "-999", "-9999"}:
+            return True
+    try:
+        val_f = float(value)
+        if not math.isfinite(val_f):
+            return True
+        if not can_be_negative and val_f < -1e-9:
+            # Inherently non-negative metric received a negative value (sentinel/error)
+            return True
+    except (ValueError, TypeError):
+        return True
+    return False
+
+
+def format_metric_display(value: Any, units: str = "", precision: int = 2, can_be_negative: bool = False) -> str:
+    """Format a financial metric value safely, handling sentinels and units.
+    
+    - Missing or invalid sentinels strictly display 'N/A' (no trailing units).
+    - Valid numbers format with commas, precision, true minus signs, and units.
+    """
+    if is_sentinel_or_missing(value, can_be_negative=can_be_negative):
+        return "N/A"
+
+    try:
+        val_f = float(value)
+    except (ValueError, TypeError):
+        return str(value)
+
+    if "crore" in units.lower() or "₹" in units:
+        return format_currency_crore(val_f, precision=precision)
+    elif "%" in units:
+        return format_rate_pct(val_f, precision=precision)
+    else:
+        formatted = format_number(val_f, precision=precision)
+        return f"{formatted} {units}".strip() if units else formatted
 
 
 def format_period(period_str: Any) -> str:
