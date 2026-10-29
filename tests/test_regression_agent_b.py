@@ -421,17 +421,13 @@ def test_all_six_pages_render_offline_with_blocked_network(page_name):
         assert m.label.split(" · ")[0] in {"OBSERVED", "FORECAST", "SCENARIO"}
 
 
-def test_ui_metrics_display_exact_loader_values():
-    """Displayed metrics on Command Centre and Forecast Lab match values loaded directly from fixtures."""
+def test_ui_withholds_financial_metrics_from_synthetic_fixtures():
+    """Synthetic fixture rows cannot reach Command Centre or Forecast Lab outputs."""
     # Command Centre
     app_home = AppTest.from_file(str(ROOT / "app/Home.py")).run(timeout=15)
     assert not app_home.exception
-    flow_res = load_table("flows_category_month")
-    if not flow_res.frame.empty:
-        # Check that closing AUM appears in one of the metrics
-        found = any("Closing AUM" in m.label for m in app_home.metric)
-        assert found is True
-        assert any("₹ crore" in m.value for m in app_home.metric)
+    assert not app_home.metric
+    assert any("Financial outputs are withheld" in info.value for info in app_home.info)
 
 
 def test_ui_components_perform_no_ml_or_ranking_computations():
@@ -451,14 +447,14 @@ def test_ui_components_perform_no_ml_or_ranking_computations():
 
 def test_ui_disclaimers_and_banners_present():
     """Prominent policy banners and disclaimers are present on relevant UI pages."""
-    # Stress Lab INSUFFICIENT_HISTORY
+    # Stress Lab withholds synthetic scenario outputs.
     app_stress = AppTest.from_file(str(ROOT / "app/pages/4_Stress_Lab.py")).run(timeout=15)
-    assert any("INSUFFICIENT_HISTORY" in w.value for w in app_stress.warning)
+    assert any("Financial outputs are withheld" in info.value for info in app_stress.info)
 
     # Evidence & Limits STRICT REDISTRIBUTION POLICY
     app_limits = AppTest.from_file(str(ROOT / "app/pages/5_Evidence_and_Limits.py")).run(timeout=15)
     assert any("STRICT REDISTRIBUTION POLICY" in w.value for w in app_limits.warning)
 
-    # Fund Research Survivorship Bias disclosure
+    # Fund Research withholds unsupported synthetic rankings.
     app_research = AppTest.from_file(str(ROOT / "app/pages/3_Fund_Research.py")).run(timeout=15)
-    assert any("Survivorship Bias" in md.value for md in app_research.markdown)
+    assert any("Financial outputs are withheld" in info.value for info in app_research.info)

@@ -39,8 +39,8 @@ def test_forecast_lab_smoke():
     assert not app.exception
     assert any("Forecast Lab" in t.value for t in app.title)
     assert any("SYNTHETIC DEMO DATA" in w.value for w in app.warning)
-    # Check that empirical uncertainty bands status notice is displayed
-    assert any("INSUFFICIENT_HISTORY" in info.value for info in app.info)
+    assert any("Financial outputs are withheld" in info.value for info in app.info)
+    assert not app.metric
     for m in app.metric:
         assert m.label.split(" · ")[0] in {"OBSERVED", "FORECAST", "SCENARIO"}
 
@@ -51,8 +51,8 @@ def test_sentiment_monitor_smoke():
     assert not app.exception
     assert any("Sentiment Monitor" in t.value for t in app.title)
     assert any("SYNTHETIC DEMO DATA" in w.value for w in app.warning)
-    # Check that source distinction mandate is present
-    assert any("Source Distinction Mandate" in info.value for info in app.info)
+    assert any("Financial outputs are withheld" in info.value for info in app.info)
+    assert not app.metric
     for m in app.metric:
         assert m.label.split(" · ")[0] in {"OBSERVED", "FORECAST", "SCENARIO"}
 
@@ -62,8 +62,8 @@ def test_fund_research_smoke():
     assert not app.exception
     assert any("Fund Research" in t.value for t in app.title)
     assert any("SYNTHETIC DEMO DATA" in w.value for w in app.warning)
-    # Check that survivorship bias warning is displayed
-    assert any("Survivorship Bias" in md.value for md in app.markdown)
+    assert any("Financial outputs are withheld" in info.value for info in app.info)
+    assert not app.metric
     for m in app.metric:
         assert m.label.split(" · ")[0] in {"OBSERVED", "FORECAST", "SCENARIO"}
 
@@ -73,8 +73,8 @@ def test_stress_lab_smoke():
     assert not app.exception
     assert any("Stress Lab" in t.value for t in app.title)
     assert any("SYNTHETIC DEMO DATA" in w.value for w in app.warning)
-    # Verify prominent INSUFFICIENT_HISTORY warning is present
-    assert any("INSUFFICIENT_HISTORY" in w.value for w in app.warning)
+    assert any("Financial outputs are withheld" in info.value for info in app.info)
+    assert not app.metric
     for m in app.metric:
         assert m.label.split(" · ")[0] in {"OBSERVED", "FORECAST", "SCENARIO"}
 
@@ -84,7 +84,8 @@ def test_stress_lab_with_fixtures(monkeypatch):
     app = AppTest.from_file(str(ROOT / "app/pages/4_Stress_Lab.py")).run(timeout=15)
     assert not app.exception
     assert any("Stress Lab" in t.value for t in app.title)
-    assert len(app.dataframe) >= 1
+    assert any("Financial outputs are withheld" in info.value for info in app.info)
+    assert not app.dataframe
     for m in app.metric:
         assert m.label.split(" · ")[0] in {"OBSERVED", "FORECAST", "SCENARIO"}
 

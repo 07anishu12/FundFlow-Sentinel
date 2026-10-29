@@ -12,6 +12,7 @@ from __future__ import annotations
 import html
 import logging
 import math
+import os
 from pathlib import Path
 from typing import Any, Optional
 
@@ -139,6 +140,10 @@ def page_header(title: str, description: str) -> None:
             unsafe_allow_html=True,
         )
 
+    # Keep demo records available for interface development, but never use them
+    # as financial inputs in production-facing pages.
+    st.session_state["_fundflow_synthetic_bundle"] = synthetic
+
     st.sidebar.caption("Category research · institutional risk monitor")
     st.sidebar.divider()
     st.title(title)
@@ -171,6 +176,17 @@ def page_header(title: str, description: str) -> None:
             "DATA SOURCE UNVERIFIED · No verified live-data status can be established "
             "from the current bundle. Observations and derived metrics are withheld where unavailable."
         )
+
+
+def stop_if_synthetic_bundle() -> bool:
+    """Withhold analysis when the selected bundle is explicitly synthetic."""
+    if st.session_state.get("_fundflow_synthetic_bundle", False):
+        st.info(
+            "Financial outputs are withheld because this bundle contains synthetic records. "
+            "Select a permission-cleared, provenance-validated data bundle to continue."
+        )
+        return True
+    return False
 
 def metric_card(title: str, value: Any, *, kind: str, period: str, units: str, source: str) -> None:
     """Render an institutional financial metric card with strict data classification."""
@@ -242,6 +258,8 @@ def _render_command_centre():
         "FundFlow Sentinel — Command Centre",
         "Monitor mutual-fund flows, forecast outflows, compare model performance, and quantify risk scenarios.",
     )
+    if stop_if_synthetic_bundle():
+        return
 
     flow_res = load_table("flows_category_month")
     flow_df = flow_res.frame
@@ -503,6 +521,8 @@ def _render_forecast_lab():
         "Forecast Lab",
         "Configure custom quantitative models, compare out-of-sample performance, and evaluate empirical prediction intervals.",
     )
+    if stop_if_synthetic_bundle():
+        return
     flow_res = load_table("flows_category_month")
     freshness_banner(as_of="2024-09-30", period="v1", metadata=flow_res.metadata)
 
@@ -670,6 +690,8 @@ def forecast_lab():
 
 def _render_sentiment_monitor():
     page_header("Sentiment Monitor", "Context only; sentiment does not drive forecasts or fund scores.")
+    if stop_if_synthetic_bundle():
+        return
     row = selected_row("sentiment_agg")
 
     if row is not None:
@@ -731,6 +753,8 @@ def sentiment_monitor():
 
 def _render_fund_research():
     page_header("Fund Research", "Transparent percentile shortlist across active mutual fund schemes.")
+    if stop_if_synthetic_bundle():
+        return
 
     sl_res = load_table("shortlist")
     sl_df = sl_res.frame
@@ -780,6 +804,8 @@ def fund_research():
 
 def _render_stress_lab():
     page_header("Stress Lab", "Scenario stress testing across category redemption outflow shocks.")
+    if stop_if_synthetic_bundle():
+        return
 
     flow_res = load_table("flows_category_month")
     flow_df = flow_res.frame
@@ -854,22 +880,27 @@ def _render_evidence_and_limits():
     qr = load_quality_metadata()
     sr = load_source_metadata()
 
-    if qr.status == "ok" and qr.payload:
+    synthetic_bundle = st.session_state.get("_fundflow_synthetic_bundle", False)
+    if qr.status == "ok" and qr.payload and not synthetic_bundle:
         c1, c2, c3 = st.columns(3)
         with c1:
-            metric_card("Active tables", 10, kind="OBSERVED", period="v1", units="tables", source="contracts.py")
+            metric_card("Checks in report", len(qr.payload.get("checks", [])), kind="OBSERVED", period=qr.metadata.generated_at or "unavailable", units="checks", source=qr.metadata.source)
         with c2:
-            metric_card("Verified sources", len(sr.payload.get("sources", [])) if sr.payload and "sources" in sr.payload else 3, kind="OBSERVED", period="v1", units="sources", source="sources.yaml")
+            metric_card("Registered sources", len(sr.payload.get("sources", [])) if sr.payload and "sources" in sr.payload else "Unavailable", kind="OBSERVED", period=sr.metadata.generated_at or "unavailable", units="sources", source=sr.metadata.source)
         with c3:
-            status_val = qr.payload.get("status", "pass") if qr.payload else "pass"
-            metric_card("Audit status", status_val.upper(), kind="OBSERVED", period="v1", units="status", source="quality_report.json")
+            status_val = qr.payload.get("status", "unknown") if qr.payload else "unknown"
+            metric_card("Recorded check status", status_val.upper(), kind="OBSERVED", period=qr.metadata.generated_at or "unavailable", units="status", source=qr.metadata.source)
 
-    freshness_banner(as_of="2026-10-28", period="v1", metadata=qr.metadata)
+    if synthetic_bundle:
+        st.warning("The available audit bundle describes synthetic demo records. Its PASS labels do not establish real-source validation.")
+    freshness_banner(as_of=qr.metadata.generated_at or "unavailable", period=qr.metadata.last_period or "unavailable", metadata=qr.metadata)
 
     st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
     st.subheader("Data Quality Checks & Verification Status")
     if qr.payload and "checks" in qr.payload:
         checks_df = pd.DataFrame(qr.payload["checks"])
+        if synthetic_bundle and "status" in checks_df:
+            checks_df["status"] = "not evidence for live data"
         st.dataframe(checks_df, use_container_width=True, hide_index=True)
 
     st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)

@@ -27,7 +27,7 @@ def test_pages_render_offline(page):
     app = AppTest.from_file(str(page)).run(timeout=15)
     assert not app.exception
     assert any("SYNTHETIC DEMO DATA" in warning.value for warning in app.warning)
-    assert any("Freshness" in info.value for info in app.info)
+    assert any("Financial outputs are withheld" in info.value or "Freshness" in info.value for info in app.info)
     for metric in app.metric:
         assert metric.label.split(" · ")[0] in {"OBSERVED", "FORECAST", "SCENARIO"}
 
