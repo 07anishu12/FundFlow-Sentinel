@@ -1,11 +1,11 @@
 {
   "summary": {
-    "total": 346,
-    "passed": 346,
+    "total": 351,
+    "passed": 351,
     "failed": 0,
     "errors": 0,
     "skipped": 0,
-    "duration_sec": 11.168,
+    "duration_sec": 10.952,
     "success_rate_pct": 100.0,
     "exit_code": 0
   },
@@ -20,28 +20,28 @@
     {
       "test_name": "test_timeout_and_http_errors",
       "suite_file": "tests.test_adapters",
-      "duration_sec": 0.511,
+      "duration_sec": 0.506,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_retry_exhaustion",
       "suite_file": "tests.test_adapters",
-      "duration_sec": 1.519,
+      "duration_sec": 1.512,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_invalid_schemas_and_rejections",
       "suite_file": "tests.test_adapters",
-      "duration_sec": 0.008,
+      "duration_sec": 0.005,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_duplicate_records_detection",
       "suite_file": "tests.test_adapters",
-      "duration_sec": 0.004,
+      "duration_sec": 0.002,
       "status": "PASSED",
       "message": ""
     },
@@ -62,7 +62,7 @@
     {
       "test_name": "test_snapshot_integrity_preserved_after_failed_refresh",
       "suite_file": "tests.test_adapters",
-      "duration_sec": 1.527,
+      "duration_sec": 1.514,
       "status": "PASSED",
       "message": ""
     },
@@ -90,21 +90,21 @@
     {
       "test_name": "test_alert_rule_hierarchy_critical_precedence",
       "suite_file": "tests.test_alerts",
-      "duration_sec": 0.006,
+      "duration_sec": 0.004,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_alert_rule_elevated",
       "suite_file": "tests.test_alerts",
-      "duration_sec": 0.004,
+      "duration_sec": 0.003,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_alert_insufficient_history_logs_limitation",
       "suite_file": "tests.test_alerts",
-      "duration_sec": 0.003,
+      "duration_sec": 0.004,
       "status": "PASSED",
       "message": ""
     },
@@ -132,14 +132,14 @@
     {
       "test_name": "test_detect_file_format_ooxml",
       "suite_file": "tests.test_amfi_flows",
-      "duration_sec": 0.007,
+      "duration_sec": 0.006,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_detect_file_format_biff8",
       "suite_file": "tests.test_amfi_flows",
-      "duration_sec": 0.001,
+      "duration_sec": 0.0,
       "status": "PASSED",
       "message": ""
     },
@@ -160,21 +160,21 @@
     {
       "test_name": "test_parse_modern_ooxml_report",
       "suite_file": "tests.test_amfi_flows",
-      "duration_sec": 0.032,
+      "duration_sec": 0.027,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_parse_modern_biff8_report",
       "suite_file": "tests.test_amfi_flows",
-      "duration_sec": 0.008,
+      "duration_sec": 0.011,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_parse_legacy_biff8_report",
       "suite_file": "tests.test_amfi_flows",
-      "duration_sec": 0.008,
+      "duration_sec": 0.009,
       "status": "PASSED",
       "message": ""
     },
@@ -223,14 +223,21 @@
     {
       "test_name": "test_parse_flexi_cap_introduction_in_jan_2021",
       "suite_file": "tests.test_amfi_flows",
-      "duration_sec": 0.013,
+      "duration_sec": 0.014,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_all_eight_historical_reports_reconciliation",
       "suite_file": "tests.test_amfi_flows",
-      "duration_sec": 0.086,
+      "duration_sec": 0.096,
+      "status": "PASSED",
+      "message": ""
+    },
+    {
+      "test_name": "test_duplicate_root_manifest_selects_materialized_nested_snapshot",
+      "suite_file": "tests.test_app_loaders",
+      "duration_sec": 0.001,
       "status": "PASSED",
       "message": ""
     },
@@ -356,7 +363,7 @@
     {
       "test_name": "test_stale_data_above_threshold",
       "suite_file": "tests.test_app_loaders",
-      "duration_sec": 0.001,
+      "duration_sec": 0.002,
       "status": "PASSED",
       "message": ""
     },
@@ -405,7 +412,7 @@
     {
       "test_name": "test_explicit_bundle_selection_never_falls_back",
       "suite_file": "tests.test_app_loaders",
-      "duration_sec": 0.001,
+      "duration_sec": 0.0,
       "status": "PASSED",
       "message": ""
     },
@@ -440,7 +447,7 @@
     {
       "test_name": "test_loaders_perform_no_business_calculations",
       "suite_file": "tests.test_app_loaders",
-      "duration_sec": 0.002,
+      "duration_sec": 0.001,
       "status": "PASSED",
       "message": ""
     },
@@ -608,7 +615,7 @@
     {
       "test_name": "test_all_pages_render_without_exception_offline[Home.py]",
       "suite_file": "tests.test_app_resilience",
-      "duration_sec": 0.081,
+      "duration_sec": 0.084,
       "status": "PASSED",
       "message": ""
     },
@@ -643,7 +650,7 @@
     {
       "test_name": "test_all_pages_render_without_exception_offline[pages/5_Evidence_and_Limits.py]",
       "suite_file": "tests.test_app_resilience",
-      "duration_sec": 0.004,
+      "duration_sec": 0.005,
       "status": "PASSED",
       "message": ""
     },
@@ -685,7 +692,7 @@
     {
       "test_name": "test_pages_render_offline[5_Evidence_and_Limits]",
       "suite_file": "tests.test_app_shell",
-      "duration_sec": 0.004,
+      "duration_sec": 0.003,
       "status": "PASSED",
       "message": ""
     },
@@ -762,7 +769,7 @@
     {
       "test_name": "test_no_model_or_network_imports",
       "suite_file": "tests.test_app_shell",
-      "duration_sec": 0.007,
+      "duration_sec": 0.008,
       "status": "PASSED",
       "message": ""
     },
@@ -797,7 +804,7 @@
     {
       "test_name": "test_cli_stage_build_data",
       "suite_file": "tests.test_cli",
-      "duration_sec": 0.271,
+      "duration_sec": 0.284,
       "status": "PASSED",
       "message": ""
     },
@@ -818,28 +825,28 @@
     {
       "test_name": "test_cli_stage_sentiment_offline",
       "suite_file": "tests.test_cli",
-      "duration_sec": 0.01,
+      "duration_sec": 0.011,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_cli_stage_rank_with_fixtures",
       "suite_file": "tests.test_cli",
-      "duration_sec": 0.009,
+      "duration_sec": 0.01,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_cli_run_all_end_to_end",
       "suite_file": "tests.test_cli",
-      "duration_sec": 0.663,
+      "duration_sec": 0.689,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_cli_failure_on_corrupt_input_preserves_last_good",
       "suite_file": "tests.test_cli",
-      "duration_sec": 0.009,
+      "duration_sec": 0.008,
       "status": "PASSED",
       "message": ""
     },
@@ -853,7 +860,7 @@
     {
       "test_name": "test_fixtures[market_month]",
       "suite_file": "tests.test_contracts",
-      "duration_sec": 0.0,
+      "duration_sec": 0.001,
       "status": "PASSED",
       "message": ""
     },
@@ -1014,7 +1021,7 @@
     {
       "test_name": "test_configs",
       "suite_file": "tests.test_contracts",
-      "duration_sec": 0.007,
+      "duration_sec": 0.008,
       "status": "PASSED",
       "message": ""
     },
@@ -1035,7 +1042,7 @@
     {
       "test_name": "test_contract_value_domains[sentiment_items-p_pos-1.1]",
       "suite_file": "tests.test_contracts",
-      "duration_sec": 0.001,
+      "duration_sec": 0.0,
       "status": "PASSED",
       "message": ""
     },
@@ -1154,7 +1161,7 @@
     {
       "test_name": "test_compute_rates_denominator_alignment",
       "suite_file": "tests.test_features",
-      "duration_sec": 0.013,
+      "duration_sec": 0.014,
       "status": "PASSED",
       "message": ""
     },
@@ -1182,21 +1189,21 @@
     {
       "test_name": "test_build_feature_matrix_contract_compliance",
       "suite_file": "tests.test_features",
-      "duration_sec": 0.014,
+      "duration_sec": 0.015,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_rolling_windows_exclude_target_and_future",
       "suite_file": "tests.test_features",
-      "duration_sec": 0.027,
+      "duration_sec": 0.028,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_market_availability_cutoff_enforcement",
       "suite_file": "tests.test_features",
-      "duration_sec": 0.014,
+      "duration_sec": 0.015,
       "status": "PASSED",
       "message": ""
     },
@@ -1210,14 +1217,14 @@
     {
       "test_name": "test_future_publication_timing_non_leakage",
       "suite_file": "tests.test_features",
-      "duration_sec": 0.014,
+      "duration_sec": 0.015,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_sentiment_boundary_does_not_alter_frozen_contract",
       "suite_file": "tests.test_features",
-      "duration_sec": 0.014,
+      "duration_sec": 0.015,
       "status": "PASSED",
       "message": ""
     },
@@ -1259,14 +1266,14 @@
     {
       "test_name": "test_missing_available_from_uses_conservative_policy",
       "suite_file": "tests.test_flow_validation",
-      "duration_sec": 0.001,
+      "duration_sec": 0.002,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_duplicate_keys_hard_fails",
       "suite_file": "tests.test_flow_validation",
-      "duration_sec": 0.003,
+      "duration_sec": 0.004,
       "status": "PASSED",
       "message": ""
     },
@@ -1280,7 +1287,7 @@
     {
       "test_name": "test_absent_gross_redemptions_fails",
       "suite_file": "tests.test_flow_validation",
-      "duration_sec": 0.001,
+      "duration_sec": 0.0,
       "status": "PASSED",
       "message": ""
     },
@@ -1308,28 +1315,28 @@
     {
       "test_name": "test_walk_forward_contract_and_out_of_sample",
       "suite_file": "tests.test_forecasting",
-      "duration_sec": 0.05,
+      "duration_sec": 0.053,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_persistence_baseline_logic",
       "suite_file": "tests.test_forecasting",
-      "duration_sec": 0.053,
+      "duration_sec": 0.054,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_mutation_invariance_future_rows_do_not_alter_past_forecasts",
       "suite_file": "tests.test_forecasting",
-      "duration_sec": 0.099,
+      "duration_sec": 0.101,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_insufficient_history_diagnostic_labeling",
       "suite_file": "tests.test_forecasting",
-      "duration_sec": 0.05,
+      "duration_sec": 0.052,
       "status": "PASSED",
       "message": ""
     },
@@ -1343,7 +1350,7 @@
     {
       "test_name": "test_save_forecast_outputs",
       "suite_file": "tests.test_forecasting",
-      "duration_sec": 0.052,
+      "duration_sec": 0.053,
       "status": "PASSED",
       "message": ""
     },
@@ -1384,6 +1391,34 @@
     },
     {
       "test_name": "test_format_provenance_label",
+      "suite_file": "tests.test_formatters",
+      "duration_sec": 0.0,
+      "status": "PASSED",
+      "message": ""
+    },
+    {
+      "test_name": "test_missing_and_negative_sentinels_are_rejected_for_nonnegative_metrics",
+      "suite_file": "tests.test_formatters",
+      "duration_sec": 0.0,
+      "status": "PASSED",
+      "message": ""
+    },
+    {
+      "test_name": "test_legitimate_negative_financial_metrics_are_preserved",
+      "suite_file": "tests.test_formatters",
+      "duration_sec": 0.0,
+      "status": "PASSED",
+      "message": ""
+    },
+    {
+      "test_name": "test_missing_text_is_not_rendered_with_trailing_units",
+      "suite_file": "tests.test_formatters",
+      "duration_sec": 0.0,
+      "status": "PASSED",
+      "message": ""
+    },
+    {
+      "test_name": "test_genuine_zeros_are_preserved",
       "suite_file": "tests.test_formatters",
       "duration_sec": 0.0,
       "status": "PASSED",
@@ -1483,7 +1518,7 @@
     {
       "test_name": "test_scheme_master_fails_gracefully_on_bad_url",
       "suite_file": "tests.test_nav_ingest",
-      "duration_sec": 0.002,
+      "duration_sec": 0.001,
       "status": "PASSED",
       "message": ""
     },
@@ -1497,35 +1532,35 @@
     {
       "test_name": "test_nav_history_deduplication_across_overlapping_chunks",
       "suite_file": "tests.test_nav_ingest",
-      "duration_sec": 2.723,
+      "duration_sec": 2.335,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_nav_history_fails_gracefully_on_network_error",
       "suite_file": "tests.test_nav_ingest",
-      "duration_sec": 1.497,
+      "duration_sec": 1.477,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_nav_lane_isolated_from_flow_forecasting",
       "suite_file": "tests.test_nav_ingest",
-      "duration_sec": 0.001,
+      "duration_sec": 0.0,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_ranking_import_isolation",
       "suite_file": "tests.test_ranking",
-      "duration_sec": 0.01,
+      "duration_sec": 0.006,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_compute_scheme_nav_metrics_toy_series",
       "suite_file": "tests.test_ranking",
-      "duration_sec": 0.009,
+      "duration_sec": 0.007,
       "status": "PASSED",
       "message": ""
     },
@@ -1539,14 +1574,14 @@
     {
       "test_name": "test_rank_funds_eligibility_and_rejections",
       "suite_file": "tests.test_ranking",
-      "duration_sec": 0.025,
+      "duration_sec": 0.022,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_percentile_scoring_direction_drawdown",
       "suite_file": "tests.test_ranking",
-      "duration_sec": 0.016,
+      "duration_sec": 0.014,
       "status": "PASSED",
       "message": ""
     },
@@ -1560,7 +1595,7 @@
     {
       "test_name": "test_weight_sensitivity_analysis",
       "suite_file": "tests.test_ranking",
-      "duration_sec": 0.016,
+      "duration_sec": 0.015,
       "status": "PASSED",
       "message": ""
     },
@@ -1735,7 +1770,7 @@
     {
       "test_name": "test_zero_gross_redemption_preserved",
       "suite_file": "tests.test_regression_agent_a",
-      "duration_sec": 0.002,
+      "duration_sec": 0.003,
       "status": "PASSED",
       "message": ""
     },
@@ -1756,7 +1791,7 @@
     {
       "test_name": "test_persistence_and_ridge_identical_evaluation_dates",
       "suite_file": "tests.test_regression_agent_a",
-      "duration_sec": 0.065,
+      "duration_sec": 0.067,
       "status": "PASSED",
       "message": ""
     },
@@ -2043,7 +2078,7 @@
     {
       "test_name": "test_ui_disclaimers_and_banners_present",
       "suite_file": "tests.test_regression_agent_b",
-      "duration_sec": 0.008,
+      "duration_sec": 0.006,
       "status": "PASSED",
       "message": ""
     },
@@ -2085,7 +2120,7 @@
     {
       "test_name": "test_run_reporter_lifecycle",
       "suite_file": "tests.test_reporting",
-      "duration_sec": 0.009,
+      "duration_sec": 0.008,
       "status": "PASSED",
       "message": ""
     },
@@ -2169,28 +2204,28 @@
     {
       "test_name": "test_verify_snapshot_rejects_missing_file",
       "suite_file": "tests.test_snapshots",
-      "duration_sec": 0.017,
+      "duration_sec": 0.018,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_verify_snapshot_rejects_altered_file_hash_mismatch",
       "suite_file": "tests.test_snapshots",
-      "duration_sec": 0.018,
+      "duration_sec": 0.017,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_verify_snapshot_rejects_path_traversal",
       "suite_file": "tests.test_snapshots",
-      "duration_sec": 0.017,
+      "duration_sec": 0.018,
       "status": "PASSED",
       "message": ""
     },
     {
       "test_name": "test_verify_snapshot_rejects_absolute_paths",
       "suite_file": "tests.test_snapshots",
-      "duration_sec": 0.017,
+      "duration_sec": 0.018,
       "status": "PASSED",
       "message": ""
     },
@@ -2232,7 +2267,7 @@
     {
       "test_name": "test_transactional_publish_preserves_last_good_on_failure",
       "suite_file": "tests.test_snapshots",
-      "duration_sec": 0.03,
+      "duration_sec": 0.031,
       "status": "PASSED",
       "message": ""
     },
@@ -2246,7 +2281,7 @@
     {
       "test_name": "test_all_six_pages_render_offline_from_snapshot[Home.py]",
       "suite_file": "tests.test_snapshots",
-      "duration_sec": 0.002,
+      "duration_sec": 0.003,
       "status": "PASSED",
       "message": ""
     },
@@ -2281,7 +2316,7 @@
     {
       "test_name": "test_all_six_pages_render_offline_from_snapshot[pages/5_Evidence_and_Limits.py]",
       "suite_file": "tests.test_snapshots",
-      "duration_sec": 0.004,
+      "duration_sec": 0.003,
       "status": "PASSED",
       "message": ""
     },
@@ -2386,7 +2421,7 @@
     {
       "test_name": "test_evidence_and_limits_smoke",
       "suite_file": "tests.test_ui_pages",
-      "duration_sec": 0.004,
+      "duration_sec": 0.003,
       "status": "PASSED",
       "message": ""
     },
