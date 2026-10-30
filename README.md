@@ -92,10 +92,10 @@ Execution telemetry and SHA-256 file digests are atomically recorded in `data/ou
 
 FundFlow Sentinel enforces honest empirical disclosures:
 
-* **Category Flows:** The processed empirical AMFI flow dataset ([`data/processed/flows_category_month.csv`](data/processed/flows_category_month.csv)) contains **8 records covering 1 month (`2024-09`)** across 8 categories (`Large Cap`, `Flexi Cap`, `Mid Cap`, `Small Cap`, `Corporate Bond`, `Aggressive Hybrid`, `Liquid`, `Overnight`).
-* **Market Indicators:** Market indicators ([`data/processed/market_month.csv`](data/processed/market_month.csv)) cover **61 monthly records (`2019-09` to `2024-09`)**.
-* **Sufficiency Impact:** Longer market history does **not** substitute for missing flow history. Walk-forward expanding-window validation (requiring a 36-month warm-up), multi-year empirical residual bands, 24-month robust anomaly scores, and alert backtests are **withheld and labeled `insufficient_history`** in empirical runs.
-* **Offline Demo Data:** Public releases bundle licence-permitted synthetic demo data ([`data/snapshots/`](data/snapshots/)) clearly tagged `origin: synthetic` and `source: synthetic:not-a-source`, with prominent UI `SYNTHETIC DEMO DATA` warning banners.
+* **Default flow bundle:** The checked-in bundle ([`data/snapshots/processed/flows_category_month.csv`](data/snapshots/processed/flows_category_month.csv)) contains **8 demonstration records covering one month (`2024-09`)** across 8 categories. Its row-level provenance is `synthetic:not-a-source`; these records are not empirical AMFI observations.
+* **Market Indicators:** The default offline bundle contains demonstration market indicators; it must not be interpreted as a verified historical market-data feed.
+* **Sufficiency Impact:** No real historical flow series is currently established by the committed bundle. Walk-forward forecasting, empirical residual bands, robust anomaly scores, and alert backtests must remain unavailable until sufficient permission-cleared real flow history is ingested and independently validated.
+* **Offline Demo Data:** The default snapshot is explicitly for offline interface/testing use. It is tagged `origin: synthetic` and `source: synthetic:not-a-source`; the dashboard must retain its `SYNTHETIC DEMO DATA` warning and withhold financial analytics from those values.
 
 ---
 

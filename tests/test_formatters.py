@@ -10,6 +10,8 @@ from app.formatters import (
     format_period,
     format_timestamp,
     format_provenance_label,
+    is_sentinel_or_missing,
+    format_metric_display,
 )
 
 
@@ -55,3 +57,33 @@ def test_format_provenance_label():
     assert format_provenance_label("https://api.mfapi.in/mf/122639") == "mfapi (AMFI Wrapper)"
     assert format_provenance_label("synthetic:not-a-source") == "Synthetic Demo"
     assert format_provenance_label(None) == "Internal Engine"
+
+
+def test_missing_and_negative_sentinels_are_rejected_for_nonnegative_metrics():
+    assert is_sentinel_or_missing(-1, can_be_negative=False)
+    assert is_sentinel_or_missing(-999, can_be_negative=False)
+    assert format_metric_display(-1, "₹ crore", can_be_negative=False) == "N/A"
+    assert format_metric_display("-1", "schemes", can_be_negative=False) == "N/A"
+    assert format_metric_display(None, "₹ crore", can_be_negative=False) == "N/A"
+    assert format_metric_display(float("nan"), "%", can_be_negative=False) == "N/A"
+
+
+def test_legitimate_negative_financial_metrics_are_preserved():
+    assert not is_sentinel_or_missing(-1.25, can_be_negative=True)
+    assert format_metric_display(-125.4, "₹ crore", can_be_negative=True) == "−₹125.40 crore"
+    assert format_metric_display(-5.2, "%", can_be_negative=True) == "−5.20%"
+    assert format_metric_display(-1.0, "score [-1, 1]", can_be_negative=True) == "−1.00 score [-1, 1]"
+
+
+def test_missing_text_is_not_rendered_with_trailing_units():
+    assert format_metric_display("N/A", "₹ crore") == "N/A"
+    assert format_metric_display("None", "schemes") == "N/A"
+    assert format_metric_display("Data unavailable", "%") == "N/A"
+
+
+def test_genuine_zeros_are_preserved():
+    assert not is_sentinel_or_missing(0, can_be_negative=False)
+    assert not is_sentinel_or_missing(0.0, can_be_negative=False)
+    assert format_metric_display(0.0, "₹ crore", can_be_negative=False) == "₹0.00 crore"
+    assert format_metric_display(0, "%", can_be_negative=False) == "0.00%"
+    assert format_metric_display(0, "schemes", precision=0, can_be_negative=False) == "0 schemes"

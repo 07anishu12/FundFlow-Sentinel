@@ -32,11 +32,24 @@ def sample_dataset(tmp_path: Path) -> tuple[Path, Path]:
     proc_dir.mkdir(parents=True)
     out_dir.mkdir(parents=True)
 
-    # Copy real processed flows and market datasets
-    real_flows = ROOT / "data" / "processed" / "flows_category_month.csv"
-    real_market = ROOT / "data" / "processed" / "market_month.csv"
-    (proc_dir / "flows_category_month.csv").write_text(real_flows.read_text())
-    (proc_dir / "market_month.csv").write_text(real_market.read_text())
+    # Copy processed flows and market datasets (preferring committed snapshots for CI isolation)
+    snapshots_proc = ROOT / "data" / "snapshots" / "processed"
+    local_proc = ROOT / "data" / "processed"
+
+    flows_src = local_proc / "flows_category_month.csv"
+    if not flows_src.is_file():
+        flows_src = snapshots_proc / "flows_category_month.csv"
+    if not flows_src.is_file():
+        flows_src = FIXTURES_DIR / "flows_category_month.csv"
+
+    market_src = local_proc / "market_month.csv"
+    if not market_src.is_file():
+        market_src = snapshots_proc / "market_month.csv"
+    if not market_src.is_file():
+        market_src = FIXTURES_DIR / "market_month.csv"
+
+    (proc_dir / "flows_category_month.csv").write_text(flows_src.read_text())
+    (proc_dir / "market_month.csv").write_text(market_src.read_text())
 
     # Copy scheme_master and nav_daily from fixtures for ranking
     (proc_dir / "scheme_master.csv").write_text((FIXTURES_DIR / "scheme_master.csv").read_text())

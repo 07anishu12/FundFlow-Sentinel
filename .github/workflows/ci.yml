@@ -13,6 +13,8 @@ jobs:
   quality-gate:
     name: Repeatable Quality Gate & Offline Verification
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
 
     steps:
       - name: Checkout repository

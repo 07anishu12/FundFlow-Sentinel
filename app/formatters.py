@@ -90,6 +90,49 @@ def format_number(value: Any, precision: int = 2) -> str:
     return f"−{num_str}" if is_negative else num_str
 
 
+def is_sentinel_or_missing(value: Any, can_be_negative: bool = False) -> bool:
+    """Return True for missing/non-finite values and sign-domain violations."""
+    if value is None or isinstance(value, bool):
+        return True
+    if isinstance(value, str):
+        cleaned = value.strip().lower()
+        if cleaned in {"", "none", "nan", "n/a", "na", "unavailable", "data unavailable", "--"}:
+            return True
+        value = cleaned.replace(",", "").replace("₹", "").replace("%", "").strip()
+    try:
+        numeric = float(value)
+    except (ValueError, TypeError, OverflowError):
+        return True
+    if not math.isfinite(numeric):
+        return True
+    return not can_be_negative and numeric < 0
+
+
+def format_metric_display(value: Any, units: str = "", precision: int = 2, can_be_negative: bool = False) -> str:
+    """Format metrics safely: unavailable values have no units; status labels remain text."""
+    missing = {"", "none", "nan", "n/a", "na", "unavailable", "data unavailable", "--"}
+    unit_kind = units.strip().casefold()
+    if isinstance(value, str):
+        clean = value.strip()
+        if clean.casefold() in missing:
+            return "N/A"
+        if unit_kind in {"tier", "status", "state", "label", "category"} and clean:
+            return clean
+    if is_sentinel_or_missing(value, can_be_negative=can_be_negative):
+        return "N/A"
+    raw = str(value).strip().replace(",", "").replace("₹", "").replace("%", "").strip()
+    try:
+        numeric = float(raw)
+    except (ValueError, TypeError, OverflowError):
+        return "N/A"
+    if "crore" in unit_kind or "₹" in units:
+        return format_currency_crore(numeric, precision=precision)
+    if "%" in units:
+        return format_rate_pct(numeric, precision=precision)
+    formatted = format_number(numeric, precision=precision)
+    return f"{formatted} {units}".strip() if units else formatted
+
+
 def format_period(period_str: Any) -> str:
     """Format YYYY-MM into human-readable financial period (e.g., '2024-09' -> 'Sep 2024')."""
     if not period_str or not isinstance(period_str, str):
